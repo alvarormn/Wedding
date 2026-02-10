@@ -130,6 +130,41 @@
         </section>
 
         <section class="section-block">
+          <h2>Notificaciones RSVP</h2>
+
+          <label class="check-field">
+            <input type="checkbox" name="admin_notifications_rsvpEmailEnabled" />
+            <span>Enviar emails al recibir RSVP</span>
+          </label>
+
+          <label class="field">
+            <span>Destinatarios (uno por línea o separados por coma)</span>
+            <textarea
+              name="admin_notifications_rsvpRecipients"
+              rows="4"
+              spellcheck="false"
+              placeholder="correo1@dominio.com&#10;correo2@dominio.com"
+            ></textarea>
+          </label>
+
+          <div class="grid-2">
+            <label class="field">
+              <span>Prefijo asunto</span>
+              <input type="text" name="admin_notifications_subjectPrefix" maxlength="80" />
+            </label>
+            <label class="field">
+              <span>Nombre remitente</span>
+              <input type="text" name="admin_notifications_fromName" maxlength="60" />
+            </label>
+          </div>
+
+          <label class="check-field">
+            <input type="checkbox" name="admin_notifications_replyToGuest" />
+            <span>Usar email del invitado como Reply-To</span>
+          </label>
+        </section>
+
+        <section class="section-block">
           <h2>Buses</h2>
           <label class="check-field">
             <input type="checkbox" name="buses_enabled" />

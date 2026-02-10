@@ -432,7 +432,7 @@ function updateBusVisibility() {
   }
 
   const selected = document.querySelector('input[name="bus"]:checked');
-  const wantsBus = selected?.value === 'si';
+  const wantsBus = selected?.value === 'yes';
 
   busFields.hidden = !wantsBus;
 
@@ -472,7 +472,7 @@ function validateRsvpForm() {
   const contacto = rsvpForm.querySelector('#contacto');
   const personas = rsvpForm.querySelector('#personas');
   const asistencia = rsvpForm.querySelector('input[name="asistencia"]:checked');
-  const wantsBus = rsvpForm.querySelector('input[name="bus"]:checked')?.value === 'si';
+  const wantsBus = rsvpForm.querySelector('input[name="bus"]:checked')?.value === 'yes';
 
   if (!rsvpForm.checkValidity()) {
     rsvpForm.reportValidity();
@@ -499,8 +499,8 @@ function validateRsvpForm() {
 
   if (personas) {
     const total = Number(personas.value);
-    if (Number.isNaN(total) || total < 1 || total > 8) {
-      setFormMessage('El número de personas debe estar entre 1 y 8.', 'is-error');
+    if (Number.isNaN(total) || total < 1 || total > 6) {
+      setFormMessage('El número de personas debe estar entre 1 y 6.', 'is-error');
       personas.focus();
       return false;
     }
@@ -514,12 +514,43 @@ function validateRsvpForm() {
   return true;
 }
 
+function setFormLoadedTimestamp() {
+  if (!rsvpForm) {
+    return;
+  }
+
+  const loadedAtInput = rsvpForm.querySelector('#form-loaded-at');
+  if (!loadedAtInput) {
+    return;
+  }
+
+  loadedAtInput.value = String(Date.now());
+}
+
+async function postRsvp(payload) {
+  const response = await fetch('/api/rsvp', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+  });
+
+  const isJson = response.headers.get('content-type')?.includes('application/json');
+  const body = isJson ? await response.json().catch(() => null) : null;
+
+  return { response, body };
+}
+
 function initRsvpForm() {
   if (!rsvpForm) {
     return;
   }
 
-  rsvpForm.addEventListener('submit', (event) => {
+  setFormLoadedTimestamp();
+
+  rsvpForm.addEventListener('submit', async (event) => {
     event.preventDefault();
     setFormMessage('');
 
@@ -527,16 +558,69 @@ function initRsvpForm() {
       return;
     }
 
-    const nombre = rsvpForm.querySelector('#nombre')?.value.trim() || 'Invitado/a';
-    const asistencia = rsvpForm.querySelector('input[name="asistencia"]:checked')?.value;
-    const msg =
-      asistencia === 'si'
-        ? `Gracias, ${nombre}. Tu asistencia quedó registrada.`
-        : `Gracias, ${nombre}. Hemos recibido tu respuesta.`;
+    const submitButton = rsvpForm.querySelector('button[type="submit"]');
+    submitButton?.setAttribute('aria-busy', 'true');
+    if (submitButton) {
+      submitButton.disabled = true;
+    }
 
-    setFormMessage(msg, 'is-success');
-    rsvpForm.reset();
-    updateBusVisibility();
+    setFormMessage('Enviando...', '');
+
+    const nombreValue = rsvpForm.querySelector('#nombre')?.value.trim() || '';
+    const contactoValue = rsvpForm.querySelector('#contacto')?.value.trim() || '';
+    const asistenciaValue = rsvpForm.querySelector('input[name="asistencia"]:checked')?.value;
+    const wantsBus = rsvpForm.querySelector('input[name="bus"]:checked')?.value === 'yes';
+    const personasValue = Number(rsvpForm.querySelector('#personas')?.value || 1);
+    const allergiesValue = rsvpForm.querySelector('#alergias')?.value.trim() || '';
+    const commentsValue = rsvpForm.querySelector('#comentarios')?.value.trim() || '';
+    const outboundStopValue = rsvpForm.querySelector('#parada-ida')?.value || '';
+    const returnStopValue = rsvpForm.querySelector('#parada-vuelta')?.value || '';
+    const busNotesValue = rsvpForm.querySelector('#obs-bus')?.value.trim() || '';
+    const companyValue = rsvpForm.querySelector('#company')?.value || '';
+    const loadedAtRaw = rsvpForm.querySelector('#form-loaded-at')?.value || '';
+
+    const payload = {
+      name: nombreValue,
+      contact: contactoValue,
+      attending: asistenciaValue === 'yes' ? 'yes' : 'no',
+      guests: Number.isFinite(personasValue) ? personasValue : 1,
+      allergies: allergiesValue,
+      comments: commentsValue,
+      bus: {
+        needsBus: wantsBus,
+        outboundStop: wantsBus ? outboundStopValue : '',
+        returnStop: wantsBus ? returnStopValue : '',
+        notes: wantsBus ? busNotesValue : '',
+      },
+      company: companyValue,
+      formLoadedAt: loadedAtRaw ? Number(loadedAtRaw) : 0,
+    };
+
+    try {
+      const { response, body } = await postRsvp(payload);
+      if (!response.ok || !body?.ok) {
+        setFormMessage('No se pudo enviar ahora. Inténtalo más tarde.', 'is-error');
+        return;
+      }
+
+      const displayName = nombreValue || 'Invitado/a';
+      const msg =
+        payload.attending === 'yes'
+          ? `Gracias, ${displayName}. Tu asistencia quedó registrada.`
+          : `Gracias, ${displayName}. Hemos recibido tu respuesta.`;
+
+      setFormMessage(msg, 'is-success');
+      rsvpForm.reset();
+      updateBusVisibility();
+      setFormLoadedTimestamp();
+    } catch {
+      setFormMessage('No se pudo enviar ahora. Inténtalo más tarde.', 'is-error');
+    } finally {
+      submitButton?.removeAttribute('aria-busy');
+      if (submitButton) {
+        submitButton.disabled = false;
+      }
+    }
   });
 }
 

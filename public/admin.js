@@ -82,6 +82,41 @@ function formatStops(items) {
   return items.join('\n');
 }
 
+function looksLikeEmail(value) {
+  return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value);
+}
+
+function parseRecipientList(text) {
+  const raw = String(text || '');
+  const parts = raw
+    .split(/[\n,]/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+
+  const unique = [];
+  const seen = new Set();
+
+  parts.forEach((email) => {
+    const lowered = email.toLowerCase();
+    if (seen.has(lowered)) {
+      return;
+    }
+
+    seen.add(lowered);
+    unique.push(email);
+  });
+
+  return unique;
+}
+
+function formatRecipientList(items) {
+  if (!Array.isArray(items)) {
+    return '';
+  }
+
+  return items.join('\n');
+}
+
 function clamp(value, min, max) {
   return Math.max(min, Math.min(max, value));
 }
@@ -276,6 +311,13 @@ function fillAdminForm(form, content) {
   form.elements.asistencia_title.value = content.asistencia.title;
   form.elements.asistencia_rsvpNote.value = content.asistencia.rsvpNote;
 
+  const notifications = content.admin?.notifications || {};
+  form.elements.admin_notifications_rsvpEmailEnabled.checked = Boolean(notifications.rsvpEmailEnabled);
+  form.elements.admin_notifications_rsvpRecipients.value = formatRecipientList(notifications.rsvpRecipients);
+  form.elements.admin_notifications_subjectPrefix.value = String(notifications.subjectPrefix || '');
+  form.elements.admin_notifications_fromName.value = String(notifications.fromName || '');
+  form.elements.admin_notifications_replyToGuest.checked = Boolean(notifications.replyToGuest);
+
   form.elements.buses_enabled.checked = content.buses.enabled;
   form.elements.buses_stopsIda.value = formatStops(content.buses.stopsIda);
   form.elements.buses_stopsVuelta.value = formatStops(content.buses.stopsVuelta);
@@ -305,6 +347,16 @@ function collectAdminFormPayload(form) {
     throw new Error(error.message);
   }
 
+  const recipients = parseRecipientList(form.elements.admin_notifications_rsvpRecipients.value);
+  if (recipients.length > 10) {
+    throw new Error('Demasiados destinatarios (máximo 10).');
+  }
+
+  const invalidEmail = recipients.find((email) => !looksLikeEmail(email));
+  if (invalidEmail) {
+    throw new Error(`Email inválido en destinatarios: ${invalidEmail}`);
+  }
+
   return {
     presentacion: {
       heroOverline: form.elements.presentacion_heroOverline.value,
@@ -325,6 +377,15 @@ function collectAdminFormPayload(form) {
     asistencia: {
       title: form.elements.asistencia_title.value,
       rsvpNote: form.elements.asistencia_rsvpNote.value,
+    },
+    admin: {
+      notifications: {
+        rsvpEmailEnabled: form.elements.admin_notifications_rsvpEmailEnabled.checked,
+        rsvpRecipients: recipients,
+        subjectPrefix: form.elements.admin_notifications_subjectPrefix.value,
+        fromName: form.elements.admin_notifications_fromName.value,
+        replyToGuest: form.elements.admin_notifications_replyToGuest.checked,
+      },
     },
     buses: {
       enabled: form.elements.buses_enabled.checked,
@@ -403,7 +464,7 @@ async function initAdminPage() {
   const logoutButton = document.getElementById('logout-button');
 
   try {
-    const { response, body } = await requestJson('/api/content');
+    const { response, body } = await requestJson('/api/admin/content');
 
     if (!response.ok || !body) {
       setStatus(statusEl, 'No se pudo cargar el contenido.', 'error');

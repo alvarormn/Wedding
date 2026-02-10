@@ -9,6 +9,7 @@ node_modules/
 # Runtime data and logs
 logs/
 *.log
+data/rsvp-submissions.jsonl
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

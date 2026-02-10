@@ -73,5 +73,17 @@
   },
   "footer": {
     "deadlineText": "Confirma antes del 01/09/2026"
+  },
+  "admin": {
+    "notifications": {
+      "rsvpEmailEnabled": true,
+      "rsvpRecipients": [
+        "correo1@dominio.com",
+        "correo2@dominio.com"
+      ],
+      "subjectPrefix": "[BODA] RSVP",
+      "fromName": "Web Boda",
+      "replyToGuest": true
+    }
   }
 }

@@ -186,6 +186,18 @@
           </h2>
 
           <form class="card rsvp-form reveal reveal--slow" data-reveal id="rsvp-form" novalidate>
+            <div
+              class="hp-field"
+              aria-hidden="true"
+              style="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;"
+            >
+              <label>
+                <span>Empresa</span>
+                <input type="text" id="company" name="company" tabindex="-1" autocomplete="off" />
+              </label>
+            </div>
+            <input type="hidden" id="form-loaded-at" name="formLoadedAt" value="" />
+
             <div class="rsvp-form__columns">
               <div class="form-stack">
                 <label class="field">
@@ -202,7 +214,7 @@
                   <legend>¿Asistirás? *</legend>
                   <div class="radio-group">
                     <label class="radio-option">
-                      <input type="radio" name="asistencia" value="si" required />
+                      <input type="radio" name="asistencia" value="yes" required />
                       <span>Sí asistiré</span>
                     </label>
                     <label class="radio-option">
@@ -214,17 +226,17 @@
 
                 <label class="field">
                   <span>Nº de personas (incluyéndote)</span>
-                  <input type="number" id="personas" name="personas" min="1" max="8" value="1" />
+                  <input type="number" id="personas" name="personas" min="1" max="6" value="1" />
                 </label>
 
                 <label class="field">
                   <span>Alergias o restricciones</span>
-                  <textarea id="alergias" name="alergias" rows="3" maxlength="220"></textarea>
+                  <textarea id="alergias" name="alergias" rows="3" maxlength="500"></textarea>
                 </label>
 
                 <label class="field">
                   <span>Comentarios</span>
-                  <textarea id="comentarios" name="comentarios" rows="3" maxlength="280"></textarea>
+                  <textarea id="comentarios" name="comentarios" rows="3" maxlength="500"></textarea>
                 </label>
               </div>
 
@@ -236,7 +248,7 @@
                   <legend>¿Quieres bus?</legend>
                   <div class="radio-group">
                     <label class="radio-option">
-                      <input type="radio" name="bus" value="si" />
+                      <input type="radio" name="bus" value="yes" />
                       <span>Sí</span>
                     </label>
                     <label class="radio-option">
@@ -269,7 +281,7 @@
 
                   <label class="field">
                     <span>Observaciones bus</span>
-                    <textarea id="obs-bus" name="obs_bus" rows="2" maxlength="180"></textarea>
+                    <textarea id="obs-bus" name="obs_bus" rows="2" maxlength="200"></textarea>
                   </label>
                 </div>
               </aside>
@@ -278,7 +290,7 @@
             <div class="rsvp-form__footer">
               <button class="btn btn--primary" type="submit">Enviar confirmación</button>
               <p class="muted" id="text-asistencia-rsvpNote">
-                Respuesta automática de ejemplo (sin backend).
+                Confirma antes del 01/09/2026
               </p>
             </div>
             <p class="form-status" id="form-status" role="status" aria-live="polite"></p>

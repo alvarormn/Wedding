@@ -6,6 +6,7 @@ Panel de administración mínimo y seguro para editar textos de una web de boda.
 
 - Backend: Node.js + Express
 - Persistencia: `data/content.json`
+- Notificaciones RSVP: Nodemailer (SMTP)
 - Admin frontend: HTML + CSS + JavaScript vanilla
 - Mapa: Leaflet servido localmente desde `node_modules` en `/vendor/leaflet/*`
 
@@ -41,6 +42,21 @@ node -e "const bcrypt=require('bcrypt');bcrypt.hash(process.argv[1],12).then(h=>
 
 Ejemplo en `.env.example`.
 
+## Variables de entorno (SMTP) para emails RSVP
+
+Estas variables **no** van en el frontend ni en `data/content.json`. Se configuran en `.env` (local) o en tu proveedor (Render, etc.).
+
+- `SMTP_HOST`
+- `SMTP_PORT`
+- `SMTP_USER`
+- `SMTP_PASS`
+- `SMTP_SECURE` (`true` para SMTPS, típicamente puerto 465; `false` para STARTTLS, típicamente 587)
+- `MAIL_FROM` (ej: `no-reply@tudominio.com`)
+
+Si `admin.notifications.rsvpEmailEnabled` es `true` pero faltan estas variables, el endpoint responderá OK al invitado pero el envío se omitirá y quedará registro en `logs/audit.log`.
+
+Los destinatarios y opciones (habilitar/deshabilitar, prefijo de asunto, Reply-To) se editan desde el panel Admin en la sección "Notificaciones RSVP" y se guardan en `data/content.json` bajo `admin.notifications` (no se expone en `GET /api/content`).
+
 ## Ejecutar
 
 ```bash
@@ -48,6 +64,34 @@ npm run dev
 ```
 
 Servidor en `http://localhost:3000`.
+
+## Probar RSVP en local
+
+1. Arranca el servidor y abre `http://localhost:3000`.
+2. Envía el formulario de "Confirmación de asistencia y buses".
+3. Verifica:
+   - Email recibido (si SMTP configurado y `rsvpEmailEnabled` activo).
+   - Log append-only: `data/rsvp-submissions.jsonl`
+   - Auditoría: `logs/audit.log`
+
+También puedes probar con `curl`:
+
+```bash
+FORM_LOADED_AT="$(node -e "process.stdout.write(String(Date.now() - 5000))")"
+curl -sS -X POST http://localhost:3000/api/rsvp \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "name":"Invitado/a",
+    "contact":"correo@dominio.com",
+    "attending":"yes",
+    "guests":2,
+    "allergies":"",
+    "comments":"",
+    "bus":{"needsBus":false},
+    "company":"",
+    "formLoadedAt": '"$FORM_LOADED_AT"'
+  }'
+```
 
 
 ## Checklist pre-push (recomendado)
@@ -96,6 +140,7 @@ git push -u origin main
    - `ADMIN_PASSWORD_HASH`
    - `SESSION_SECRET`
    - `NODE_ENV=production` (ya definido en `render.yaml`)
+   - SMTP (para emails RSVP): `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_SECURE`, `MAIL_FROM`
 5. Haz deploy y abre la URL pública que Render te asigna.
 
 Comandos usados en Render:
@@ -116,6 +161,8 @@ Nota importante para pruebas:
 - `POST /logout` -> cierre de sesión
 - `GET /admin` -> panel (requiere sesión)
 - `GET /api/content` -> contenido público
+- `POST /api/rsvp` -> envío RSVP (público, rate-limited + anti-spam + validación server-side)
+- `GET /api/admin/content` -> contenido completo (incluye `admin.notifications`, requiere sesión)
 - `PUT /api/content` -> guardar contenido (requiere sesión + CSRF)
 - `GET /api/csrf-token` -> token CSRF para formularios
 - `GET /vendor/leaflet/*` -> assets locales de Leaflet (sin CDN)
@@ -125,6 +172,7 @@ Nota importante para pruebas:
 - Password hasheada con bcrypt (validación solo server-side)
 - Sesión con cookie `httpOnly`, `sameSite=strict`, `secure` en producción
 - Rate limiting en `/login` por IP
+- Rate limiting + honeypot + time-to-submit mínimo en `/api/rsvp`
 - CSRF para operaciones de escritura (`POST`/`PUT`)
 - Helmet + CSP estricta
 - Validación server-side estricta del esquema JSON
@@ -132,8 +180,10 @@ Nota importante para pruebas:
 - Logs de seguridad en `logs/audit.log`:
   - intentos fallidos de login
   - bloqueos por rate limit
+  - eventos de RSVP (rate limit, rechazos anti-spam, fallos de email, etc.)
   - cambios de contenido guardados
 - Escritura atómica de `content.json` (tmp + rename)
+- `/api/content` filtra y **no** expone `admin.notifications` ni destinatarios de email
 
 ## Notas de producción
 
@@ -141,6 +191,7 @@ Nota importante para pruebas:
 - Configurar `NODE_ENV=production`.
 - Usar un `SESSION_SECRET` largo y aleatorio.
 - El store en memoria de `express-session` es válido para desarrollo; en producción usar store persistente (Redis, etc.).
+- Para emails, usa un proveedor SMTP fiable y configura SPF/DKIM/DMARC para mejorar entregabilidad.
 
 ## Integración con la web pública
 
