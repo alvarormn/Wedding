@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Admin | Wedding</title>
+    <link rel="stylesheet" href="/admin.css" />
+  </head>
+  <body class="auth-page">
+    <main class="auth-card" aria-labelledby="login-title">
+      <h1 id="login-title">Admin Panel</h1>
+      <p class="muted">Acceso restringido</p>
+
+      <form id="login-form" novalidate>
+        <label class="field">
+          <span>Usuario</span>
+          <input type="text" name="user" autocomplete="username" required />
+        </label>
+
+        <label class="field">
+          <span>Contraseña</span>
+          <input type="password" name="password" autocomplete="current-password" required />
+        </label>
+
+        <button type="submit" class="btn">Iniciar sesión</button>
+        <p id="login-status" class="status" role="status" aria-live="polite"></p>
+      </form>
+    </main>
+
+    <script defer src="/admin.js"></script>
+  </body>
+</html>

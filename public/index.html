@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="es" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Landing de boda con design tokens, animaciones sutiles y confirmación de asistencia"
+    />
+    <title>Lucía & Mateo | Nuestra Boda</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;500;600&family=Playfair+Display:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="/vendor/leaflet/leaflet.css" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="site-header" id="top">
+      <div class="container site-header__inner">
+        <a class="brand" href="#presentacion" aria-label="Ir a presentación">
+          <span class="brand__date overline">12 de octubre de 2026</span>
+          <span class="brand__names script" id="text-presentacion-names-brand">Lucía & Mateo</span>
+        </a>
+
+        <nav class="site-nav" aria-label="Navegación principal">
+          <a class="site-nav__link" href="#presentacion">Presentación</a>
+          <a class="site-nav__link" href="#dia">Día</a>
+          <a class="site-nav__link" href="#logistica">Logística</a>
+          <a class="site-nav__link" href="#asistencia">Asistencia</a>
+        </nav>
+
+        <div class="site-header__actions">
+          <button
+            class="icon-button"
+            id="theme-toggle"
+            type="button"
+            aria-label="Cambiar tema"
+            aria-pressed="false"
+          >
+            <span data-theme-icon aria-hidden="true">☾</span>
+            <span class="icon-button__label" data-theme-label>Tema</span>
+          </button>
+          <a class="btn btn--primary btn--sm" href="#asistencia">Confirmar asistencia</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="section hero" id="presentacion" aria-labelledby="presentacion-title">
+        <div class="container hero__layout">
+          <div class="hero__content">
+            <p class="overline reveal" data-reveal id="text-presentacion-heroOverline">Nos casamos</p>
+            <p class="hero__names script reveal reveal--delay-1" data-reveal id="text-presentacion-names">
+              Lucía & Mateo
+            </p>
+            <h1 class="title reveal reveal--delay-1" data-reveal id="presentacion-title">
+              Queremos celebrar nuestro gran día contigo
+            </h1>
+            <p class="hero__subtitle muted reveal reveal--delay-2" data-reveal id="text-presentacion-subtitle">
+              Nos encantaría compartir una jornada de ceremonia, brindis y baile con nuestra gente
+              favorita en un entorno de viñedos y atardecer.
+            </p>
+
+            <ul class="chip-list reveal reveal--delay-2" data-reveal aria-label="Datos principales">
+              <li class="chip">Sábado · 12/10/2026</li>
+              <li class="chip">Finca Los Olivos, Toledo</li>
+              <li class="chip">17:00 h</li>
+            </ul>
+
+            <div class="hero__actions reveal reveal--delay-2" data-reveal>
+              <a class="btn btn--primary" href="#asistencia">Confirmar asistencia</a>
+              <a class="btn btn--ghost" href="#logistica">Ver logística</a>
+            </div>
+          </div>
+
+          <aside class="card hero__card reveal reveal--slow" data-reveal aria-label="Resumen de agenda">
+            <p class="overline">Resumen del día</p>
+            <p class="hero__card-title">Ceremonia · Cóctel · Cena · Fiesta</p>
+            <div class="separator"></div>
+            <p class="muted">Dress code sugerido: elegante de tarde en tonos neutros.</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section section--light" id="dia" aria-labelledby="dia-title">
+        <div class="container">
+          <p class="overline reveal" data-reveal>Día de la boda</p>
+          <h2 class="title reveal" data-reveal id="dia-title">Agenda del evento</h2>
+
+          <div class="timeline-grid" id="timeline-grid" role="list" aria-label="Cronograma del evento">
+            <article class="card timeline-card reveal" data-reveal role="listitem">
+              <p class="timeline-card__time">17:00</p>
+              <h3 class="title">Ceremonia</h3>
+              <p class="muted">Jardín principal · Intercambio de votos.</p>
+            </article>
+
+            <article class="card timeline-card reveal reveal--delay-1" data-reveal role="listitem">
+              <p class="timeline-card__time">18:00</p>
+              <h3 class="title">Cóctel</h3>
+              <p class="muted">Terraza norte · Aperitivos y música en vivo.</p>
+            </article>
+
+            <article class="card timeline-card reveal reveal--delay-1" data-reveal role="listitem">
+              <p class="timeline-card__time">19:30</p>
+              <h3 class="title">Banquete</h3>
+              <p class="muted">Salón principal · Cena sentada.</p>
+            </article>
+
+            <article class="card timeline-card reveal reveal--delay-2" data-reveal role="listitem">
+              <p class="timeline-card__time">22:30</p>
+              <h3 class="title">Fiesta</h3>
+              <p class="muted">Pista central · DJ y barra libre.</p>
+            </article>
+
+            <article class="card timeline-card reveal reveal--delay-2" data-reveal role="listitem">
+              <p class="timeline-card__time">03:00</p>
+              <h3 class="title">Vuelta</h3>
+              <p class="muted">Salida de buses hacia hoteles y centro.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--mid" id="logistica" aria-labelledby="logistica-title">
+        <div class="container">
+          <p class="overline reveal" data-reveal>Logística de la boda</p>
+          <h2 class="title reveal" data-reveal id="logistica-title">Todo lo que necesitas para venir</h2>
+
+          <div class="logistics-grid">
+            <article class="card logistics-card reveal" data-reveal>
+              <h3 class="title" id="text-logistica-locationTitle">Ubicación</h3>
+              <p class="muted" id="text-logistica-mapLabel">Ceremonia y celebración</p>
+              <div class="map-shell">
+                <div id="location-map" class="location-map" aria-label="Mapa de la ubicación"></div>
+                <div id="location-map-fallback" class="map-fallback" hidden>
+                  <span>Mapa no disponible</span>
+                </div>
+              </div>
+              <a
+                id="location-open-maps"
+                class="btn btn--ghost btn--sm"
+                href="https://maps.google.com/?q=Finca+Los+Olivos+Toledo"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Abrir en mapas</a
+              >
+            </article>
+
+            <article class="card logistics-card reveal reveal--delay-1" data-reveal>
+              <h3 class="title">Cómo llegar</h3>
+              <p class="muted" id="text-logistica-howToArrive">
+                A 45 min de Madrid. Recomendamos llegar entre 16:15 y 16:45 para parking y acceso con
+                calma.
+              </p>
+            </article>
+
+            <article class="card logistics-card reveal reveal--delay-1" data-reveal>
+              <h3 class="title">Parking</h3>
+              <p class="muted" id="text-logistica-parking">
+                Parking gratuito dentro de la finca con personal de apoyo. Habrá señalización desde la
+                entrada.
+              </p>
+            </article>
+
+            <article class="card logistics-card reveal reveal--delay-2" data-reveal>
+              <h3 class="title">Alojamiento</h3>
+              <p class="muted">
+                Bloque de habitaciones reservado en Hotel Plaza Central y Hotel Alameda hasta el
+                15/09/2026.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="asistencia" aria-labelledby="asistencia-title">
+        <div class="container">
+          <p class="overline reveal" data-reveal>Confirmación de asistencia y buses</p>
+          <h2 class="title reveal" data-reveal id="asistencia-title">
+            Completa tu RSVP en menos de un minuto
+          </h2>
+
+          <form class="card rsvp-form reveal reveal--slow" data-reveal id="rsvp-form" novalidate>
+            <div class="rsvp-form__columns">
+              <div class="form-stack">
+                <label class="field">
+                  <span>Nombre y apellidos *</span>
+                  <input type="text" id="nombre" name="nombre" required minlength="2" />
+                </label>
+
+                <label class="field">
+                  <span>Contacto (email o teléfono) *</span>
+                  <input type="text" id="contacto" name="contacto" required minlength="5" />
+                </label>
+
+                <fieldset class="field field--radios">
+                  <legend>¿Asistirás? *</legend>
+                  <div class="radio-group">
+                    <label class="radio-option">
+                      <input type="radio" name="asistencia" value="si" required />
+                      <span>Sí asistiré</span>
+                    </label>
+                    <label class="radio-option">
+                      <input type="radio" name="asistencia" value="no" />
+                      <span>No podré asistir</span>
+                    </label>
+                  </div>
+                </fieldset>
+
+                <label class="field">
+                  <span>Nº de personas (incluyéndote)</span>
+                  <input type="number" id="personas" name="personas" min="1" max="8" value="1" />
+                </label>
+
+                <label class="field">
+                  <span>Alergias o restricciones</span>
+                  <textarea id="alergias" name="alergias" rows="3" maxlength="220"></textarea>
+                </label>
+
+                <label class="field">
+                  <span>Comentarios</span>
+                  <textarea id="comentarios" name="comentarios" rows="3" maxlength="280"></textarea>
+                </label>
+              </div>
+
+              <aside class="bus-card" aria-label="Información de buses">
+                <h3 class="title">Buses</h3>
+                <p class="muted">Si lo necesitas, reserva plaza de ida y vuelta.</p>
+
+                <fieldset class="field field--radios">
+                  <legend>¿Quieres bus?</legend>
+                  <div class="radio-group">
+                    <label class="radio-option">
+                      <input type="radio" name="bus" value="si" />
+                      <span>Sí</span>
+                    </label>
+                    <label class="radio-option">
+                      <input type="radio" name="bus" value="no" checked />
+                      <span>No</span>
+                    </label>
+                  </div>
+                </fieldset>
+
+                <div id="bus-fields" hidden>
+                  <label class="field">
+                    <span>Parada ida</span>
+                    <select id="parada-ida" name="parada_ida">
+                      <option value="">Selecciona una parada</option>
+                      <option value="Atocha">Madrid Atocha</option>
+                      <option value="Moncloa">Moncloa</option>
+                      <option value="Toledo Centro">Toledo Centro</option>
+                    </select>
+                  </label>
+
+                  <label class="field">
+                    <span>Parada vuelta</span>
+                    <select id="parada-vuelta" name="parada_vuelta">
+                      <option value="">Selecciona una parada</option>
+                      <option value="Atocha">Madrid Atocha</option>
+                      <option value="Moncloa">Moncloa</option>
+                      <option value="Toledo Centro">Toledo Centro</option>
+                    </select>
+                  </label>
+
+                  <label class="field">
+                    <span>Observaciones bus</span>
+                    <textarea id="obs-bus" name="obs_bus" rows="2" maxlength="180"></textarea>
+                  </label>
+                </div>
+              </aside>
+            </div>
+
+            <div class="rsvp-form__footer">
+              <button class="btn btn--primary" type="submit">Enviar confirmación</button>
+              <p class="muted" id="text-asistencia-rsvpNote">
+                Respuesta automática de ejemplo (sin backend).
+              </p>
+            </div>
+            <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </section>
+
+      <section class="section section--light" id="regalo" aria-labelledby="regalo-title">
+        <div class="container">
+          <details class="gift-accordion reveal" data-reveal>
+            <summary id="regalo-title" class="gift-accordion__summary">
+              <span class="title" id="text-regalo-title">Regalo (opcional)</span>
+              <span class="gift-accordion__hint muted">Abrir detalles</span>
+            </summary>
+            <div class="gift-accordion__content">
+              <p class="muted" id="text-regalo-message">
+                Lo más importante es que vengas, pero si quieres tener un detalle:
+              </p>
+
+              <div class="gift-row">
+                <span class="gift-row__label">IBAN</span>
+                <code id="gift-iban">ES00 0000 0000 0000 0000 0000</code>
+                <button
+                  class="btn btn--ghost btn--sm"
+                  type="button"
+                  data-copy-type="iban"
+                  data-copy="ES00 0000 0000 0000 0000 0000"
+                >
+                  Copiar
+                </button>
+              </div>
+
+              <div class="gift-row">
+                <span class="gift-row__label">Bizum</span>
+                <code id="gift-bizum">+34 600 000 000</code>
+                <button
+                  class="btn btn--ghost btn--sm"
+                  type="button"
+                  data-copy-type="bizum"
+                  data-copy="+34 600 000 000"
+                >
+                  Copiar
+                </button>
+              </div>
+
+              <p class="copy-status" id="copy-status" role="status" aria-live="polite"></p>
+            </div>
+          </details>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container site-footer__inner reveal" data-reveal>
+        <p class="overline">Nos encantará celebrarlo contigo</p>
+        <h2 class="title">Gracias por acompañarnos en este día</h2>
+        <a class="btn btn--light" href="#asistencia">Confirmar asistencia</a>
+        <p class="site-footer__note" id="text-footer-deadline">Confirma antes del 01/09/2026</p>
+      </div>
+    </footer>
+
+    <script defer src="/vendor/leaflet/leaflet.js"></script>
+    <script defer src="/app.js"></script>
+  </body>
+</html>

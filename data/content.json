@@ -1,0 +1,77 @@
+{
+  "presentacion": {
+    "heroOverline": "Nos casamos",
+    "names": "Luisa & Jose Manuel",
+    "subtitle": "Queremos compartir nuestro gran día contigo entre viñedos, música y celebración."
+  },
+  "dia": {
+    "title": "Día de la boda",
+    "items": [
+      {
+        "time": "17:00",
+        "title": "Ceremonia",
+        "desc": "Jardín principal"
+      },
+      {
+        "time": "18:00",
+        "title": "Cóctel",
+        "desc": "Terraza norte"
+      },
+      {
+        "time": "19:30",
+        "title": "Banquete",
+        "desc": "Salón principal"
+      },
+      {
+        "time": "22:30",
+        "title": "Fiesta",
+        "desc": "Pista central"
+      },
+      {
+        "time": "03:00",
+        "title": "Vuelta",
+        "desc": "Salida de buses"
+      }
+    ]
+  },
+  "logistica": {
+    "title": "Logística de la boda",
+    "locationTitle": "Finca Los Olivos · Toledo",
+    "howToArrive": "A 45 minutos de Madrid. Recomendamos llegar 30 minutos antes.",
+    "parking": "Parking gratuito dentro de la finca con señalización.",
+    "map": {
+      "lat": 39.8628,
+      "lng": -4.0273,
+      "zoom": 13,
+      "label": "Ceremonia y celebración",
+      "openUrl": "https://www.openstreetmap.org/?mlat=39.8628&mlon=-4.0273#map=13/39.8628/-4.0273"
+    }
+  },
+  "asistencia": {
+    "title": "Confirmación de asistencia y buses",
+    "rsvpNote": "Confirma antes del 01/09/2026"
+  },
+  "buses": {
+    "enabled": true,
+    "stopsIda": [
+      "Madrid Atocha",
+      "Moncloa",
+      "Toledo Centro"
+    ],
+    "stopsVuelta": [
+      "Toledo Centro",
+      "Moncloa",
+      "Madrid Atocha"
+    ]
+  },
+  "regalo": {
+    "enabled": true,
+    "title": "Regalo (opcional)",
+    "message": "Lo más importante es que vengas, pero si quieres tener un detalle, aquí tienes opciones.",
+    "iban": "ES00 0000 0000 0000 0000 0000",
+    "bizum": "+34 600 000 000"
+  },
+  "footer": {
+    "deadlineText": "Confirma antes del 01/09/2026"
+  }
+}

@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel | Wedding</title>
+    <link rel="stylesheet" href="/vendor/leaflet/leaflet.css" />
+    <link rel="stylesheet" href="/admin.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <h1>Editor de contenidos</h1>
+        <p class="muted">Panel privado</p>
+      </div>
+      <button id="logout-button" class="btn btn--ghost" type="button">Cerrar sesión</button>
+    </header>
+
+    <main class="container">
+      <form id="admin-content-form" class="panel" novalidate>
+        <section class="section-block">
+          <h2>Presentación</h2>
+          <label class="field">
+            <span>presentacion.heroOverline</span>
+            <input type="text" name="presentacion_heroOverline" required />
+          </label>
+          <label class="field">
+            <span>presentacion.names</span>
+            <input type="text" name="presentacion_names" required />
+          </label>
+          <label class="field">
+            <span>presentacion.subtitle</span>
+            <textarea name="presentacion_subtitle" rows="3" required></textarea>
+          </label>
+        </section>
+
+        <section class="section-block">
+          <h2>Día</h2>
+          <label class="field">
+            <span>dia.title</span>
+            <input type="text" name="dia_title" required />
+          </label>
+          <label class="field">
+            <span>dia.items[] (JSON array de {"time","title","desc"})</span>
+            <textarea name="dia_items" rows="8" spellcheck="false" required></textarea>
+          </label>
+        </section>
+
+        <section class="section-block">
+          <h2>Logística</h2>
+          <label class="field">
+            <span>logistica.title</span>
+            <input type="text" name="logistica_title" required />
+          </label>
+          <label class="field">
+            <span>logistica.locationTitle</span>
+            <input type="text" name="logistica_locationTitle" required />
+          </label>
+          <label class="field">
+            <span>logistica.howToArrive</span>
+            <textarea name="logistica_howToArrive" rows="3" required></textarea>
+          </label>
+          <label class="field">
+            <span>logistica.parking</span>
+            <textarea name="logistica_parking" rows="2" required></textarea>
+          </label>
+
+          <div class="subsection">
+            <h3>Mapa / Ubicación</h3>
+            <div class="grid-2">
+              <label class="field">
+                <span>logistica.map.lat</span>
+                <input
+                  type="number"
+                  name="logistica_map_lat"
+                  step="any"
+                  min="-90"
+                  max="90"
+                  required
+                />
+              </label>
+              <label class="field">
+                <span>logistica.map.lng</span>
+                <input
+                  type="number"
+                  name="logistica_map_lng"
+                  step="any"
+                  min="-180"
+                  max="180"
+                  required
+                />
+              </label>
+            </div>
+
+            <div class="grid-2">
+              <label class="field">
+                <span>logistica.map.zoom</span>
+                <input type="number" name="logistica_map_zoom" min="1" max="20" required />
+              </label>
+              <label class="field">
+                <span>logistica.map.label</span>
+                <input type="text" name="logistica_map_label" maxlength="120" required />
+              </label>
+            </div>
+
+            <label class="field">
+              <span>logistica.map.openUrl (https o vacío)</span>
+              <input type="url" name="logistica_map_openUrl" placeholder="https://..." />
+            </label>
+
+            <div class="map-tools">
+              <button id="map-reset-view" class="btn btn--ghost" type="button">Centrar</button>
+              <p class="muted">Arrastra el marcador o haz clic en el mapa para ajustar coordenadas.</p>
+            </div>
+            <div id="admin-map" class="admin-map" aria-label="Previsualización del mapa"></div>
+            <p id="map-status" class="status muted" role="status" aria-live="polite"></p>
+          </div>
+        </section>
+
+        <section class="section-block">
+          <h2>Asistencia</h2>
+          <label class="field">
+            <span>asistencia.title</span>
+            <input type="text" name="asistencia_title" required />
+          </label>
+          <label class="field">
+            <span>asistencia.rsvpNote</span>
+            <input type="text" name="asistencia_rsvpNote" required />
+          </label>
+        </section>
+
+        <section class="section-block">
+          <h2>Buses</h2>
+          <label class="check-field">
+            <input type="checkbox" name="buses_enabled" />
+            <span>buses.enabled</span>
+          </label>
+          <label class="field">
+            <span>buses.stopsIda[] (una parada por línea)</span>
+            <textarea name="buses_stopsIda" rows="4" required></textarea>
+          </label>
+          <label class="field">
+            <span>buses.stopsVuelta[] (una parada por línea)</span>
+            <textarea name="buses_stopsVuelta" rows="4" required></textarea>
+          </label>
+        </section>
+
+        <section class="section-block">
+          <h2>Regalo</h2>
+          <label class="check-field">
+            <input type="checkbox" name="regalo_enabled" />
+            <span>regalo.enabled</span>
+          </label>
+          <label class="field">
+            <span>regalo.title</span>
+            <input type="text" name="regalo_title" required />
+          </label>
+          <label class="field">
+            <span>regalo.message</span>
+            <textarea name="regalo_message" rows="3" required></textarea>
+          </label>
+          <label class="field">
+            <span>regalo.iban</span>
+            <input type="text" name="regalo_iban" required />
+          </label>
+          <label class="field">
+            <span>regalo.bizum</span>
+            <input type="text" name="regalo_bizum" required />
+          </label>
+        </section>
+
+        <section class="section-block">
+          <h2>Footer</h2>
+          <label class="field">
+            <span>footer.deadlineText</span>
+            <input type="text" name="footer_deadlineText" required />
+          </label>
+        </section>
+
+        <div class="actions">
+          <button id="save-button" class="btn" type="submit">Guardar cambios</button>
+          <p id="admin-status" class="status" role="status" aria-live="polite"></p>
+        </div>
+      </form>
+    </main>
+
+    <script defer src="/vendor/leaflet/leaflet.js"></script>
+    <script defer src="/admin.js"></script>
+  </body>
+</html>

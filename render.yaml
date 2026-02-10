@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: wedding-admin-panel-test
+    runtime: node
+    plan: free
+    autoDeploy: true
+    buildCommand: npm ci --no-audit --no-fund
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: ADMIN_USER
+        sync: false
+      - key: ADMIN_PASSWORD_HASH
+        sync: false
+      - key: SESSION_SECRET
+        generateValue: true
