@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches: [main, work]
+  pull_request:
+    branches: [main, work]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies (without native postinstall)
+        run: npm ci --no-audit --no-fund --ignore-scripts
+
+      - name: Validate server syntax
+        run: node --check server.js
+
+      - name: Validate public scripts syntax
+        run: |
+          node --check public/app.js
+          node --check public/admin.js
+
+      - name: Validate JSON content
+        run: node -e "JSON.parse(require('node:fs').readFileSync('data/content.json','utf8')); console.log('content.json OK')"

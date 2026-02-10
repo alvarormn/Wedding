@@ -49,6 +49,24 @@ npm run dev
 
 Servidor en `http://localhost:3000`.
 
+
+## Checklist pre-push (recomendado)
+
+Antes de hacer `git push`, valida localmente:
+
+```bash
+npm ci --no-audit --no-fund --ignore-scripts
+node --check server.js
+node --check public/app.js
+node --check public/admin.js
+node -e "JSON.parse(require('node:fs').readFileSync('data/content.json','utf8')); console.log('content.json OK')"
+```
+
+Además:
+- Confirma que `.env` **no** está trackeado (solo `.env.example`).
+- Revisa que `SESSION_SECRET` y `ADMIN_PASSWORD_HASH` se configuran solo en entorno seguro (GitHub/Render secrets).
+- Verifica login/admin en local (`/login`, `/admin`) y web pública (`/`).
+
 ## Publicar en GitHub (repositorio)
 
 1. Asegúrate de NO subir `.env` ni `node_modules` (ya están ignorados en `.gitignore`).
