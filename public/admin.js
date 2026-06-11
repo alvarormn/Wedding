@@ -1,3 +1,5 @@
+'use strict';
+
 const LOGIN_FORM_ID = 'login-form';
 const CONTENT_FORM_ID = 'admin-content-form';
 const MAP_MIN_ZOOM = 1;
@@ -6,6 +8,7 @@ const MAP_MAX_ZOOM = 20;
 let csrfTokenCache = null;
 let adminMap = null;
 let adminMarker = null;
+let subtitleQuill = null;
 
 async function getCsrfToken(forceRefresh = false) {
   if (!forceRefresh && csrfTokenCache) {
@@ -290,18 +293,237 @@ function initAdminMapPreview(form) {
   });
 }
 
+// ── Editor dinámico de eventos del día ───────────────────────
+
+function createDiaItemRow(item = {}) {
+  const row = document.createElement('div');
+  row.className = 'dia-item-row';
+
+  row.innerHTML = `
+    <label>Hora<input type="text" class="dia-item-time" placeholder="17:00" value="${escapeAttr(item.time || '')}" maxlength="20" /></label>
+    <label>Evento<input type="text" class="dia-item-title" placeholder="Ceremonia" value="${escapeAttr(item.title || '')}" maxlength="80" /></label>
+    <label>Descripción<input type="text" class="dia-item-desc" placeholder="Jardín principal" value="${escapeAttr(item.desc || '')}" maxlength="180" /></label>
+    <button type="button" class="dia-item-remove" title="Eliminar evento">✕</button>
+  `;
+
+  row.querySelector('.dia-item-remove').addEventListener('click', () => {
+    row.remove();
+  });
+
+  return row;
+}
+
+function escapeAttr(value) {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+function initDiaItemsEditor(items) {
+  const editor = document.getElementById('dia-items-editor');
+  const addButton = document.getElementById('dia-add-item');
+
+  if (!editor || !addButton) {
+    return;
+  }
+
+  editor.innerHTML = '';
+
+  if (Array.isArray(items)) {
+    items.forEach((item) => {
+      editor.appendChild(createDiaItemRow(item));
+    });
+  }
+
+  addButton.addEventListener('click', () => {
+    editor.appendChild(createDiaItemRow());
+  });
+}
+
+function collectDiaItems() {
+  const editor = document.getElementById('dia-items-editor');
+  if (!editor) {
+    return [];
+  }
+
+  const rows = editor.querySelectorAll('.dia-item-row');
+  const items = [];
+
+  rows.forEach((row) => {
+    const time = row.querySelector('.dia-item-time')?.value.trim() || '';
+    const title = row.querySelector('.dia-item-title')?.value.trim() || '';
+    const desc = row.querySelector('.dia-item-desc')?.value.trim() || '';
+
+    if (!time && !title && !desc) {
+      return;
+    }
+
+    items.push({ time, title, desc });
+  });
+
+  return items;
+}
+
+// ── Visor de confirmaciones RSVP ────────────────────────────
+
+function formatDate(isoString) {
+  if (!isoString) {
+    return '-';
+  }
+
+  try {
+    return new Date(isoString).toLocaleString('es-ES', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+  } catch {
+    return isoString;
+  }
+}
+
+function renderRsvpList(submissions) {
+  const container = document.getElementById('rsvp-list');
+  if (!container) {
+    return;
+  }
+
+  if (!submissions.length) {
+    container.innerHTML = '<p class="muted">No hay confirmaciones recibidas todavía.</p>';
+    return;
+  }
+
+  const attending = submissions.filter((s) => s.rsvp?.attending === 'yes').length;
+  const notAttending = submissions.filter((s) => s.rsvp?.attending === 'no').length;
+  const totalGuests = submissions
+    .filter((s) => s.rsvp?.attending === 'yes')
+    .reduce((sum, s) => sum + (s.rsvp?.guests || 0), 0);
+
+  const summary = document.createElement('div');
+  summary.style.cssText = 'display:flex;gap:1.5rem;flex-wrap:wrap;margin-bottom:1rem;';
+  summary.innerHTML = `
+    <span><strong>${submissions.length}</strong> <span class="muted">respuestas</span></span>
+    <span><strong style="color:#16a34a">${attending}</strong> <span class="muted">asisten</span></span>
+    <span><strong style="color:#b91c1c">${notAttending}</strong> <span class="muted">no asisten</span></span>
+    <span><strong>${totalGuests}</strong> <span class="muted">personas confirmadas</span></span>
+  `;
+
+  const table = document.createElement('table');
+  table.className = 'rsvp-table';
+  table.innerHTML = `
+    <thead>
+      <tr>
+        <th>Fecha</th>
+        <th>Nombre</th>
+        <th>Asiste</th>
+        <th>Personas</th>
+        <th>Contacto</th>
+        <th>Bus</th>
+        <th>Alergias / Comentarios</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  `;
+
+  const tbody = table.querySelector('tbody');
+
+  submissions.forEach((entry) => {
+    const rsvp = entry.rsvp || {};
+    const tr = document.createElement('tr');
+
+    const busInfo = rsvp.bus?.needsBus
+      ? `Sí · ${rsvp.bus.outboundStop || '-'} → ${rsvp.bus.returnStop || '-'}`
+      : 'No';
+
+    const extras = [
+      rsvp.allergies ? `Alergias: ${rsvp.allergies}` : '',
+      rsvp.comments ? `Comentarios: ${rsvp.comments}` : '',
+    ]
+      .filter(Boolean)
+      .join(' / ') || '-';
+
+    tr.innerHTML = `
+      <td>${formatDate(entry.timestamp)}</td>
+      <td><strong>${escapeHtmlContent(rsvp.name || '-')}</strong></td>
+      <td><span class="rsvp-badge rsvp-badge--${rsvp.attending === 'yes' ? 'yes' : 'no'}">${rsvp.attending === 'yes' ? 'Sí' : 'No'}</span></td>
+      <td>${rsvp.guests || '-'}</td>
+      <td>${escapeHtmlContent(rsvp.contact || '-')}</td>
+      <td>${escapeHtmlContent(busInfo)}</td>
+      <td class="muted">${escapeHtmlContent(extras)}</td>
+    `;
+
+    tbody.appendChild(tr);
+  });
+
+  container.innerHTML = '';
+  container.appendChild(summary);
+  container.appendChild(table);
+}
+
+function escapeHtmlContent(value) {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+async function loadRsvpSubmissions() {
+  const statusEl = document.getElementById('rsvp-status');
+  const listEl = document.getElementById('rsvp-list');
+
+  if (statusEl) {
+    setStatus(statusEl, 'Cargando confirmaciones...', '');
+  }
+
+  if (listEl) {
+    listEl.innerHTML = '';
+  }
+
+  try {
+    const { response, body } = await requestJson('/api/admin/rsvp');
+
+    if (!response.ok || !body) {
+      setStatus(statusEl, 'No se pudieron cargar las confirmaciones.', 'error');
+      return;
+    }
+
+    setStatus(statusEl, '', '');
+    renderRsvpList(body.submissions || []);
+  } catch {
+    setStatus(statusEl, 'No se pudieron cargar las confirmaciones.', 'error');
+  }
+}
+
+// ── Rellenar el formulario ───────────────────────────────────
+
 function fillAdminForm(form, content) {
   form.elements.presentacion_heroOverline.value = content.presentacion.heroOverline;
   form.elements.presentacion_names.value = content.presentacion.names;
-  form.elements.presentacion_subtitle.value = content.presentacion.subtitle;
+  if (subtitleQuill) {
+    subtitleQuill.clipboard.dangerouslyPasteHTML(content.presentacion.subtitle || '');
+  }
+  form.elements.presentacion_title.value = content.presentacion.title || '';
+  form.elements.presentacion_chipDate.value = content.presentacion.chipDate || '';
+  form.elements.presentacion_chipVenue.value = content.presentacion.chipVenue || '';
+  form.elements.presentacion_chipTime.value = content.presentacion.chipTime || '';
+  form.elements.presentacion_heroCardSummary.value = content.presentacion.heroCardSummary || '';
+  form.elements.presentacion_dresscode.value = content.presentacion.dresscode || '';
+  form.elements.presentacion_headerDate.value = content.presentacion.headerDate || '';
 
   form.elements.dia_title.value = content.dia.title;
-  form.elements.dia_items.value = JSON.stringify(content.dia.items, null, 2);
+  initDiaItemsEditor(content.dia.items);
 
   form.elements.logistica_title.value = content.logistica.title;
   form.elements.logistica_locationTitle.value = content.logistica.locationTitle;
   form.elements.logistica_howToArrive.value = content.logistica.howToArrive;
   form.elements.logistica_parking.value = content.logistica.parking;
+  form.elements.logistica_alojamientoTitle.value = content.logistica.alojamientoTitle || '';
+  form.elements.logistica_alojamiento.value = content.logistica.alojamiento || '';
   form.elements.logistica_map_lat.value = content.logistica.map.lat;
   form.elements.logistica_map_lng.value = content.logistica.map.lng;
   form.elements.logistica_map_zoom.value = content.logistica.map.zoom;
@@ -329,22 +551,24 @@ function fillAdminForm(form, content) {
   form.elements.regalo_bizum.value = content.regalo.bizum;
 
   form.elements.footer_deadlineText.value = content.footer.deadlineText;
+  form.elements.footer_overline.value = content.footer.overline || '';
+  form.elements.footer_title.value = content.footer.title || '';
 }
 
-function collectAdminFormPayload(form) {
-  let dayItems;
-  let mapData;
+// ── Recoger el payload del formulario ───────────────────────
 
-  try {
-    dayItems = JSON.parse(form.elements.dia_items.value);
-  } catch {
-    throw new Error('El campo dia.items[] debe ser JSON válido.');
-  }
+function collectAdminFormPayload(form) {
+  let mapData;
 
   try {
     mapData = parseMapCoordinates(form);
   } catch (error) {
     throw new Error(error.message);
+  }
+
+  const dayItems = collectDiaItems();
+  if (!dayItems.length) {
+    throw new Error('Añade al menos un evento al programa del día.');
   }
 
   const recipients = parseRecipientList(form.elements.admin_notifications_rsvpRecipients.value);
@@ -361,7 +585,14 @@ function collectAdminFormPayload(form) {
     presentacion: {
       heroOverline: form.elements.presentacion_heroOverline.value,
       names: form.elements.presentacion_names.value,
-      subtitle: form.elements.presentacion_subtitle.value,
+      subtitle: subtitleQuill ? subtitleQuill.root.innerHTML : '',
+      title: form.elements.presentacion_title.value,
+      chipDate: form.elements.presentacion_chipDate.value,
+      chipVenue: form.elements.presentacion_chipVenue.value,
+      chipTime: form.elements.presentacion_chipTime.value,
+      heroCardSummary: form.elements.presentacion_heroCardSummary.value,
+      dresscode: form.elements.presentacion_dresscode.value,
+      headerDate: form.elements.presentacion_headerDate.value,
     },
     dia: {
       title: form.elements.dia_title.value,
@@ -372,6 +603,8 @@ function collectAdminFormPayload(form) {
       locationTitle: form.elements.logistica_locationTitle.value,
       howToArrive: form.elements.logistica_howToArrive.value,
       parking: form.elements.logistica_parking.value,
+      alojamientoTitle: form.elements.logistica_alojamientoTitle.value,
+      alojamiento: form.elements.logistica_alojamiento.value,
       map: mapData,
     },
     asistencia: {
@@ -401,9 +634,13 @@ function collectAdminFormPayload(form) {
     },
     footer: {
       deadlineText: form.elements.footer_deadlineText.value,
+      overline: form.elements.footer_overline.value,
+      title: form.elements.footer_title.value,
     },
   };
 }
+
+// ── Página de login ──────────────────────────────────────────
 
 async function initLoginPage() {
   const loginForm = document.getElementById(LOGIN_FORM_ID);
@@ -454,15 +691,39 @@ async function initLoginPage() {
   });
 }
 
+// ── Página de administración ────────────────────────────────
+
 async function initAdminPage() {
   const form = document.getElementById(CONTENT_FORM_ID);
   if (!form) {
     return;
   }
 
+  // Inicializar editor de texto enriquecido Quill para el subtitle
+  if (typeof Quill !== 'undefined' && document.getElementById('subtitle-editor')) {
+    const AlignStyle = Quill.import('attributors/style/align');
+    Quill.register(AlignStyle, true);
+
+    subtitleQuill = new Quill('#subtitle-editor', {
+      theme: 'snow',
+      modules: {
+        toolbar: [
+          ['bold', 'italic', 'underline'],
+          [{ color: [] }],
+          [{ align: [] }],
+          ['clean'],
+        ],
+      },
+    });
+  }
+
   const statusEl = document.getElementById('admin-status');
   const logoutButton = document.getElementById('logout-button');
+  const viewRsvpButton = document.getElementById('view-rsvp-button');
+  const closeRsvpButton = document.getElementById('close-rsvp-button');
+  const rsvpPanel = document.getElementById('rsvp-panel');
 
+  // Cargar contenido
   try {
     const { response, body } = await requestJson('/api/admin/content');
 
@@ -478,6 +739,7 @@ async function initAdminPage() {
     setStatus(statusEl, 'No se pudo cargar el contenido.', 'error');
   }
 
+  // Guardar contenido
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
 
@@ -517,6 +779,27 @@ async function initAdminPage() {
     }
   });
 
+  // Panel RSVPs
+  viewRsvpButton?.addEventListener('click', () => {
+    if (!rsvpPanel) {
+      return;
+    }
+
+    rsvpPanel.hidden = false;
+    viewRsvpButton.hidden = true;
+    loadRsvpSubmissions();
+  });
+
+  closeRsvpButton?.addEventListener('click', () => {
+    if (!rsvpPanel) {
+      return;
+    }
+
+    rsvpPanel.hidden = true;
+    viewRsvpButton.hidden = false;
+  });
+
+  // Logout
   logoutButton?.addEventListener('click', async () => {
     try {
       await requestJson('/logout', { method: 'POST' }, true);

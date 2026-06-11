@@ -180,17 +180,34 @@
             Completa tu RSVP en menos de un minuto
           </h2>
 
-          <form class="card rsvp-form reveal reveal--slow" data-reveal id="rsvp-form" novalidate>
+          <form class="card rsvp-form reveal reveal--slow" data-reveal id="rsvp-form" novalidate autocomplete="on">
             <div class="rsvp-form__columns">
               <div class="form-stack">
                 <label class="field">
                   <span>Nombre y apellidos *</span>
-                  <input type="text" id="nombre" name="nombre" required minlength="2" />
+                  <input
+                    type="text"
+                    id="nombre"
+                    name="nombre"
+                    required
+                    minlength="2"
+                    autocomplete="name"
+                    placeholder="Ej: Ana García"
+                  />
                 </label>
 
                 <label class="field">
                   <span>Contacto (email o teléfono) *</span>
-                  <input type="text" id="contacto" name="contacto" required minlength="5" />
+                  <input
+                    type="text"
+                    id="contacto"
+                    name="contacto"
+                    required
+                    minlength="5"
+                    autocomplete="email"
+                    placeholder="Ej: ana@email.com o 612 345 678"
+                  />
+                  <p class="field__hint">Te avisamos si hay cambios de última hora.</p>
                 </label>
 
                 <fieldset class="field field--radios">
@@ -198,52 +215,75 @@
                   <div class="radio-group">
                     <label class="radio-option">
                       <input type="radio" name="asistencia" value="si" required />
-                      <span>Sí asistiré</span>
+                      <span>Sí, asistiré</span>
                     </label>
                     <label class="radio-option">
                       <input type="radio" name="asistencia" value="no" />
-                      <span>No podré asistir</span>
+                      <span>No podré ir</span>
                     </label>
                   </div>
                 </fieldset>
 
-                <label class="field">
+                <label class="field field--narrow">
                   <span>Nº de personas (incluyéndote)</span>
-                  <input type="number" id="personas" name="personas" min="1" max="8" value="1" />
+                  <select id="personas" name="personas">
+                    <option value="1">1 persona</option>
+                    <option value="2">2 personas</option>
+                    <option value="3">3 personas</option>
+                    <option value="4">4 personas</option>
+                    <option value="5">5 personas</option>
+                    <option value="6">6 personas</option>
+                    <option value="7">7 personas</option>
+                    <option value="8">8 personas</option>
+                  </select>
                 </label>
 
                 <label class="field">
-                  <span>Alergias o restricciones</span>
-                  <textarea id="alergias" name="alergias" rows="3" maxlength="220"></textarea>
+                  <span>Alergias o restricciones alimentarias</span>
+                  <textarea
+                    id="alergias"
+                    name="alergias"
+                    rows="2"
+                    maxlength="220"
+                    placeholder="Ej: celiaquía, intolerancia al gluten, alergia al marisco…"
+                  ></textarea>
                 </label>
 
                 <label class="field">
                   <span>Comentarios</span>
-                  <textarea id="comentarios" name="comentarios" rows="3" maxlength="280"></textarea>
+                  <textarea
+                    id="comentarios"
+                    name="comentarios"
+                    rows="2"
+                    maxlength="280"
+                    placeholder="Cualquier cosa que quieras contarnos"
+                  ></textarea>
                 </label>
               </div>
 
               <aside class="bus-card" aria-label="Información de buses">
-                <h3 class="title">Buses</h3>
-                <p class="muted">Si lo necesitas, reserva plaza de ida y vuelta.</p>
+                <div class="bus-card__header">
+                  <h3 class="title">Servicio de bus</h3>
+                  <p class="muted">Organizamos bus de ida y vuelta. Reserva tu plaza si lo necesitas.</p>
+                </div>
 
                 <fieldset class="field field--radios">
-                  <legend>¿Quieres bus?</legend>
+                  <legend>¿Quieres plaza en el bus?</legend>
                   <div class="radio-group">
                     <label class="radio-option">
                       <input type="radio" name="bus" value="si" />
-                      <span>Sí</span>
+                      <span>Sí, quiero bus</span>
                     </label>
                     <label class="radio-option">
                       <input type="radio" name="bus" value="no" checked />
-                      <span>No</span>
+                      <span>No, gracias</span>
                     </label>
                   </div>
                 </fieldset>
 
                 <div id="bus-fields" hidden>
                   <label class="field">
-                    <span>Parada ida</span>
+                    <span>Parada de ida</span>
                     <select id="parada-ida" name="parada_ida">
                       <option value="">Selecciona una parada</option>
                       <option value="Atocha">Madrid Atocha</option>
@@ -253,7 +293,7 @@
                   </label>
 
                   <label class="field">
-                    <span>Parada vuelta</span>
+                    <span>Parada de vuelta</span>
                     <select id="parada-vuelta" name="parada_vuelta">
                       <option value="">Selecciona una parada</option>
                       <option value="Atocha">Madrid Atocha</option>
@@ -263,8 +303,14 @@
                   </label>
 
                   <label class="field">
-                    <span>Observaciones bus</span>
-                    <textarea id="obs-bus" name="obs_bus" rows="2" maxlength="180"></textarea>
+                    <span>Observaciones</span>
+                    <textarea
+                      id="obs-bus"
+                      name="obs_bus"
+                      rows="2"
+                      maxlength="180"
+                      placeholder="Algún comentario sobre el bus"
+                    ></textarea>
                   </label>
                 </div>
               </aside>

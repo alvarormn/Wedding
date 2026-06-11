@@ -321,7 +321,18 @@ function applyPublicContent(content) {
   setTextById('text-presentacion-heroOverline', content.presentacion?.heroOverline);
   setTextById('text-presentacion-names', content.presentacion?.names);
   setTextById('text-presentacion-names-brand', content.presentacion?.names);
-  setTextById('text-presentacion-subtitle', content.presentacion?.subtitle);
+  // subtitle es HTML enriquecido — usar innerHTML en lugar de textContent
+  const subtitleEl = document.getElementById('text-presentacion-subtitle');
+  if (subtitleEl && typeof content.presentacion?.subtitle === 'string') {
+    subtitleEl.innerHTML = content.presentacion.subtitle;
+  }
+  setTextById('text-presentacion-title', content.presentacion?.title);
+  setTextById('text-presentacion-headerDate', content.presentacion?.headerDate);
+  setTextById('text-presentacion-chipDate', content.presentacion?.chipDate);
+  setTextById('text-presentacion-chipVenue', content.presentacion?.chipVenue);
+  setTextById('text-presentacion-chipTime', content.presentacion?.chipTime);
+  setTextById('text-presentacion-heroCardSummary', content.presentacion?.heroCardSummary);
+  setTextById('text-presentacion-dresscode', content.presentacion?.dresscode);
 
   setTextById('dia-title', content.dia?.title);
   renderTimelineItems(content.dia?.items);
@@ -330,6 +341,8 @@ function applyPublicContent(content) {
   setTextById('text-logistica-locationTitle', content.logistica?.locationTitle);
   setTextById('text-logistica-howToArrive', content.logistica?.howToArrive);
   setTextById('text-logistica-parking', content.logistica?.parking);
+  setTextById('text-logistica-alojamientoTitle', content.logistica?.alojamientoTitle);
+  setTextById('text-logistica-alojamiento', content.logistica?.alojamiento);
   initPublicMap(content.logistica?.map);
 
   setTextById('asistencia-title', content.asistencia?.title);
@@ -354,6 +367,8 @@ function applyPublicContent(content) {
   updateCopyButtonValue('bizum', content.regalo?.bizum);
 
   setTextById('text-footer-deadline', content.footer?.deadlineText);
+  setTextById('text-footer-overline', content.footer?.overline);
+  setTextById('text-footer-title', content.footer?.title);
 }
 
 async function initPublicContent() {

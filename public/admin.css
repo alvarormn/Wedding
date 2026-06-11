@@ -222,3 +222,178 @@ textarea {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
+
+/* ── Editor Quill (subtitle) ─────────────────────────────── */
+.field--rich {
+  display: grid;
+  gap: 0.35rem;
+  margin-bottom: 0.75rem;
+}
+
+.ql-toolbar.ql-snow {
+  border: 1px solid var(--border);
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+  background: var(--surface-2);
+}
+
+.ql-container.ql-snow {
+  border: 1px solid var(--border);
+  border-radius: 0 0 8px 8px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 0.95rem;
+  min-height: 7rem;
+}
+
+.ql-editor {
+  min-height: 7rem;
+  color: var(--text);
+}
+
+/* Iconos y pickers de Quill en modo oscuro */
+.ql-snow .ql-stroke {
+  stroke: var(--muted);
+}
+.ql-snow .ql-fill,
+.ql-snow .ql-stroke.ql-fill {
+  fill: var(--muted);
+}
+.ql-snow .ql-picker {
+  color: var(--muted);
+}
+.ql-snow .ql-picker-options {
+  background: var(--surface-2);
+  border-color: var(--border);
+}
+.ql-snow .ql-active .ql-stroke,
+.ql-snow button:hover .ql-stroke {
+  stroke: var(--accent);
+}
+.ql-snow .ql-active .ql-fill,
+.ql-snow button:hover .ql-fill {
+  fill: var(--accent);
+}
+
+/* ── Grid 3 columnas ─────────────────────────────────────── */
+@media (min-width: 768px) {
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+}
+
+.grid-3 {
+  display: grid;
+  gap: 0.75rem;
+}
+
+/* ── Editor dinámico de eventos del día ─────────────────── */
+.dia-item-row {
+  display: grid;
+  grid-template-columns: 90px 1fr 1fr auto;
+  gap: 0.5rem;
+  align-items: end;
+  padding: 0.6rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+}
+
+.dia-item-row label {
+  display: grid;
+  gap: 0.25rem;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.dia-item-row input {
+  margin: 0;
+}
+
+.dia-item-remove {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  border-radius: 6px;
+  padding: 0.3rem 0.55rem;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  align-self: end;
+}
+
+.dia-item-remove:hover {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.dia-items-editor {
+  margin-bottom: 0.75rem;
+}
+
+.btn--sm {
+  font-size: 0.88rem;
+  padding: 0.4rem 0.75rem;
+}
+
+/* ── Panel RSVP ──────────────────────────────────────────── */
+.rsvp-panel {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 0 1rem;
+}
+
+.rsvp-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 0 0.75rem;
+}
+
+.rsvp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  margin-top: 0.75rem;
+}
+
+.rsvp-table th,
+.rsvp-table td {
+  text-align: left;
+  padding: 0.5rem 0.65rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.rsvp-table th {
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 0.82rem;
+}
+
+.rsvp-badge {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.rsvp-badge--yes {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.rsvp-badge--no {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+@media (prefers-color-scheme: dark) {
+  .rsvp-badge--yes { background: #14532d; color: #86efac; }
+  .rsvp-badge--no  { background: #7f1d1d; color: #fca5a5; }
+}

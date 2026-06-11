@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Panel | Wedding</title>
     <link rel="stylesheet" href="/vendor/leaflet/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.7/quill.snow.min.css" />
     <link rel="stylesheet" href="/admin.css" />
   </head>
   <body>
@@ -13,63 +14,135 @@
         <h1>Editor de contenidos</h1>
         <p class="muted">Panel privado</p>
       </div>
-      <button id="logout-button" class="btn btn--ghost" type="button">Cerrar sesión</button>
+      <div style="display:flex;gap:12px;align-items:center;">
+        <button id="view-rsvp-button" class="btn btn--ghost" type="button">Ver confirmaciones</button>
+        <button id="logout-button" class="btn btn--ghost" type="button">Cerrar sesión</button>
+      </div>
     </header>
+
+    <!-- Visor de confirmaciones RSVP -->
+    <div id="rsvp-panel" class="rsvp-panel" hidden>
+      <div class="container">
+        <div class="rsvp-panel__header">
+          <h2>Confirmaciones de asistencia</h2>
+          <button id="close-rsvp-button" class="btn btn--ghost" type="button">Cerrar</button>
+        </div>
+        <p id="rsvp-status" class="status muted" role="status" aria-live="polite"></p>
+        <div id="rsvp-list"></div>
+      </div>
+    </div>
 
     <main class="container">
       <form id="admin-content-form" class="panel" novalidate>
+
+        <!-- PRESENTACIÓN -->
         <section class="section-block">
           <h2>Presentación</h2>
+
           <label class="field">
-            <span>presentacion.heroOverline</span>
+            <span>Frase pequeña sobre el encabezado (overline)</span>
             <input type="text" name="presentacion_heroOverline" required />
           </label>
           <label class="field">
-            <span>presentacion.names</span>
+            <span>Nombres de los novios</span>
             <input type="text" name="presentacion_names" required />
           </label>
           <label class="field">
-            <span>presentacion.subtitle</span>
-            <textarea name="presentacion_subtitle" rows="3" required></textarea>
+            <span>Título principal (H1)</span>
+            <input type="text" name="presentacion_title" required />
           </label>
+          <div class="field field--rich">
+            <span>Texto de bienvenida (puede tener formato)</span>
+            <div id="subtitle-editor"></div>
+          </div>
+
+          <div class="subsection">
+            <h3>Datos destacados (chips)</h3>
+            <div class="grid-3">
+              <label class="field">
+                <span>Fecha</span>
+                <input type="text" name="presentacion_chipDate" placeholder="Sábado · 12/10/2026" required />
+              </label>
+              <label class="field">
+                <span>Lugar</span>
+                <input type="text" name="presentacion_chipVenue" placeholder="Finca Los Olivos, Toledo" required />
+              </label>
+              <label class="field">
+                <span>Hora</span>
+                <input type="text" name="presentacion_chipTime" placeholder="17:00 h" required />
+              </label>
+            </div>
+          </div>
+
+          <div class="subsection">
+            <h3>Tarjeta de resumen (lateral)</h3>
+            <label class="field">
+              <span>Momentos del día</span>
+              <input type="text" name="presentacion_heroCardSummary" placeholder="Ceremonia · Cóctel · Cena · Fiesta" required />
+            </label>
+            <label class="field">
+              <span>Dress code</span>
+              <input type="text" name="presentacion_dresscode" required />
+            </label>
+          </div>
+
+          <div class="subsection">
+            <h3>Cabecera de la página</h3>
+            <label class="field">
+              <span>Fecha en el logo (cabecera)</span>
+              <input type="text" name="presentacion_headerDate" placeholder="12 de octubre de 2026" required />
+            </label>
+          </div>
         </section>
 
+        <!-- DÍA -->
         <section class="section-block">
-          <h2>Día</h2>
+          <h2>Programa del día</h2>
           <label class="field">
-            <span>dia.title</span>
+            <span>Título de la sección</span>
             <input type="text" name="dia_title" required />
           </label>
-          <label class="field">
-            <span>dia.items[] (JSON array de {"time","title","desc"})</span>
-            <textarea name="dia_items" rows="8" spellcheck="false" required></textarea>
-          </label>
+
+          <div class="subsection">
+            <h3>Eventos</h3>
+            <div id="dia-items-editor" class="dia-items-editor"></div>
+            <button type="button" id="dia-add-item" class="btn btn--ghost btn--sm">+ Añadir evento</button>
+          </div>
         </section>
 
+        <!-- LOGÍSTICA -->
         <section class="section-block">
           <h2>Logística</h2>
           <label class="field">
-            <span>logistica.title</span>
+            <span>Título de la sección</span>
             <input type="text" name="logistica_title" required />
           </label>
           <label class="field">
-            <span>logistica.locationTitle</span>
+            <span>Nombre del lugar (tarjeta mapa)</span>
             <input type="text" name="logistica_locationTitle" required />
           </label>
           <label class="field">
-            <span>logistica.howToArrive</span>
+            <span>Cómo llegar</span>
             <textarea name="logistica_howToArrive" rows="3" required></textarea>
           </label>
           <label class="field">
-            <span>logistica.parking</span>
+            <span>Parking</span>
             <textarea name="logistica_parking" rows="2" required></textarea>
+          </label>
+          <label class="field">
+            <span>Título tarjeta alojamiento</span>
+            <input type="text" name="logistica_alojamientoTitle" required />
+          </label>
+          <label class="field">
+            <span>Texto alojamiento</span>
+            <textarea name="logistica_alojamiento" rows="3" required></textarea>
           </label>
 
           <div class="subsection">
             <h3>Mapa / Ubicación</h3>
             <div class="grid-2">
               <label class="field">
-                <span>logistica.map.lat</span>
+                <span>Latitud</span>
                 <input
                   type="number"
                   name="logistica_map_lat"
@@ -80,7 +153,7 @@
                 />
               </label>
               <label class="field">
-                <span>logistica.map.lng</span>
+                <span>Longitud</span>
                 <input
                   type="number"
                   name="logistica_map_lng"
@@ -94,17 +167,17 @@
 
             <div class="grid-2">
               <label class="field">
-                <span>logistica.map.zoom</span>
+                <span>Zoom del mapa</span>
                 <input type="number" name="logistica_map_zoom" min="1" max="20" required />
               </label>
               <label class="field">
-                <span>logistica.map.label</span>
+                <span>Etiqueta del marcador</span>
                 <input type="text" name="logistica_map_label" maxlength="120" required />
               </label>
             </div>
 
             <label class="field">
-              <span>logistica.map.openUrl (https o vacío)</span>
+              <span>URL para "Abrir en mapas" (https o vacío)</span>
               <input type="url" name="logistica_map_openUrl" placeholder="https://..." />
             </label>
 
@@ -117,24 +190,26 @@
           </div>
         </section>
 
+        <!-- ASISTENCIA -->
         <section class="section-block">
-          <h2>Asistencia</h2>
+          <h2>Formulario de asistencia</h2>
           <label class="field">
-            <span>asistencia.title</span>
+            <span>Título de la sección</span>
             <input type="text" name="asistencia_title" required />
           </label>
           <label class="field">
-            <span>asistencia.rsvpNote</span>
+            <span>Nota de fecha límite</span>
             <input type="text" name="asistencia_rsvpNote" required />
           </label>
         </section>
 
+        <!-- NOTIFICACIONES RSVP -->
         <section class="section-block">
           <h2>Notificaciones RSVP</h2>
 
           <label class="check-field">
             <input type="checkbox" name="admin_notifications_rsvpEmailEnabled" />
-            <span>Enviar emails al recibir RSVP</span>
+            <span>Enviar email al recibir confirmación</span>
           </label>
 
           <label class="field">
@@ -149,11 +224,11 @@
 
           <div class="grid-2">
             <label class="field">
-              <span>Prefijo asunto</span>
+              <span>Prefijo del asunto</span>
               <input type="text" name="admin_notifications_subjectPrefix" maxlength="80" />
             </label>
             <label class="field">
-              <span>Nombre remitente</span>
+              <span>Nombre del remitente</span>
               <input type="text" name="admin_notifications_fromName" maxlength="60" />
             </label>
           </div>
@@ -164,50 +239,61 @@
           </label>
         </section>
 
+        <!-- BUSES -->
         <section class="section-block">
           <h2>Buses</h2>
           <label class="check-field">
             <input type="checkbox" name="buses_enabled" />
-            <span>buses.enabled</span>
+            <span>Mostrar sección de buses</span>
           </label>
           <label class="field">
-            <span>buses.stopsIda[] (una parada por línea)</span>
+            <span>Paradas de ida (una por línea)</span>
             <textarea name="buses_stopsIda" rows="4" required></textarea>
           </label>
           <label class="field">
-            <span>buses.stopsVuelta[] (una parada por línea)</span>
+            <span>Paradas de vuelta (una por línea)</span>
             <textarea name="buses_stopsVuelta" rows="4" required></textarea>
           </label>
         </section>
 
+        <!-- REGALO -->
         <section class="section-block">
           <h2>Regalo</h2>
           <label class="check-field">
             <input type="checkbox" name="regalo_enabled" />
-            <span>regalo.enabled</span>
+            <span>Mostrar sección de regalo</span>
           </label>
           <label class="field">
-            <span>regalo.title</span>
+            <span>Título</span>
             <input type="text" name="regalo_title" required />
           </label>
           <label class="field">
-            <span>regalo.message</span>
+            <span>Mensaje</span>
             <textarea name="regalo_message" rows="3" required></textarea>
           </label>
           <label class="field">
-            <span>regalo.iban</span>
+            <span>IBAN</span>
             <input type="text" name="regalo_iban" required />
           </label>
           <label class="field">
-            <span>regalo.bizum</span>
+            <span>Bizum</span>
             <input type="text" name="regalo_bizum" required />
           </label>
         </section>
 
+        <!-- FOOTER -->
         <section class="section-block">
-          <h2>Footer</h2>
+          <h2>Pie de página</h2>
           <label class="field">
-            <span>footer.deadlineText</span>
+            <span>Frase pequeña (overline)</span>
+            <input type="text" name="footer_overline" required />
+          </label>
+          <label class="field">
+            <span>Título</span>
+            <input type="text" name="footer_title" required />
+          </label>
+          <label class="field">
+            <span>Texto de fecha límite</span>
             <input type="text" name="footer_deadlineText" required />
           </label>
         </section>
@@ -220,6 +306,7 @@
     </main>
 
     <script defer src="/vendor/leaflet/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.7/quill.min.js"></script>
     <script defer src="/admin.js"></script>
   </body>
 </html>

@@ -579,24 +579,43 @@ h3 {
   box-shadow: var(--shadow-2);
 }
 
+/* Disable the card lift on a form — it's not a link */
+.rsvp-form:hover {
+  transform: none;
+  box-shadow: var(--shadow-2);
+}
+
 .rsvp-form__columns {
   display: grid;
   gap: var(--space-5);
 }
 
-.form-stack,
-.bus-card {
+.form-stack {
   display: grid;
   gap: var(--space-4);
 }
 
 .bus-card {
+  display: grid;
+  gap: var(--space-4);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  padding: var(--space-4);
-  background: color-mix(in srgb, var(--color-surface) 75%, var(--color-accent));
+  padding: var(--space-5);
+  background: color-mix(in srgb, var(--color-surface) 60%, var(--color-accent));
 }
 
+.bus-card__header {
+  display: grid;
+  gap: var(--space-2);
+}
+
+/* Bus fields container — only apply grid when visible */
+#bus-fields:not([hidden]) {
+  display: grid;
+  gap: var(--space-4);
+}
+
+/* Fields */
 .field {
   display: grid;
   gap: var(--space-2);
@@ -609,14 +628,21 @@ h3 {
   font-weight: var(--fw-semibold);
 }
 
+.field__hint {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+  margin-top: calc(-1 * var(--space-1));
+}
+
 .field input,
 .field textarea,
 .field select {
   width: 100%;
-  border: 1px solid var(--color-border);
+  border: 1.5px solid var(--color-border);
   border-radius: var(--radius-md);
   background: var(--color-bg);
-  padding: 0.78rem 0.9rem;
+  padding: 0.72rem 0.9rem;
   transition:
     border-color var(--dur-2) var(--ease-standard),
     box-shadow var(--dur-2) var(--ease-standard);
@@ -626,13 +652,20 @@ h3 {
 .field textarea:focus-visible,
 .field select:focus-visible {
   border-color: var(--color-focus);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-focus) 24%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-focus) 22%, transparent);
+  outline: none;
 }
 
 .field textarea {
   resize: vertical;
+  min-height: 4rem;
 }
 
+.field--narrow select {
+  max-width: 12rem;
+}
+
+/* Radio pills */
 .field--radios {
   border: 0;
   padding: 0;
@@ -647,17 +680,52 @@ h3 {
 .radio-option {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
-  border: 1px solid var(--color-border);
+  border: 1.5px solid var(--color-border);
   border-radius: 999px;
-  padding: 0.45rem 0.85rem;
+  padding: 0.5rem 1.1rem;
   background: var(--color-bg);
+  cursor: pointer;
+  user-select: none;
+  font-size: var(--fs-small);
+  font-weight: var(--fw-semibold);
+  transition:
+    background var(--dur-2) var(--ease-standard),
+    border-color var(--dur-2) var(--ease-standard),
+    color var(--dur-2) var(--ease-standard);
 }
 
-.radio-option input {
-  accent-color: var(--color-primary);
+.radio-option:hover {
+  border-color: var(--color-primary);
 }
 
+/* Hide the native radio visually but keep it accessible */
+.radio-option input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  pointer-events: none;
+}
+
+/* Checked state */
+.radio-option:has(input:checked) {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+}
+
+[data-theme="dark"] .radio-option:has(input:checked) {
+  color: var(--color-bg);
+}
+
+/* Focus ring for keyboard navigation */
+.radio-option:has(input:focus-visible) {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+/* Footer */
 .rsvp-form__footer {
   margin-top: var(--space-5);
   display: flex;
@@ -667,6 +735,7 @@ h3 {
   gap: var(--space-3);
 }
 
+/* Form status */
 .form-status {
   margin-top: var(--space-3);
   min-height: 1.6rem;
@@ -680,6 +749,30 @@ h3 {
 
 .form-status.is-error {
   color: var(--color-danger);
+}
+
+/* Mobile overrides */
+@media (max-width: 47.99rem) {
+  /* Bus card as a clear section divider within the form */
+  .bus-card {
+    background: transparent;
+    border: none;
+    border-top: 1px solid var(--color-border);
+    border-radius: 0;
+    padding: var(--space-5) 0 0;
+  }
+
+  /* Full-width submit button */
+  .rsvp-form__footer {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+
+  .rsvp-form__footer .btn {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 /* ---------- Regalo ---------- */
