@@ -1,50 +1,55 @@
 {
   "presentacion": {
     "heroOverline": "Nos casamos",
-    "names": "Luisa & Jose Manuel",
-    "subtitle": "Queremos compartir nuestro gran día contigo entre viñedos, música y celebración."
+    "names": "MªLuisa & Jose Manuel",
+    "subtitle": "Nos conocimos en Córdoba hace algo más de 4 años. Desde entonces hemos atravesado juntos un camino lleno de complicidad, retos, proyectos y mucha diversión. Un par de miradas, cientos de cafés, unas cuantas escapadas, manualidades superadas con éxito y millones de risas después... nos hemos dado cuenta de que somos un gran equipo.Compartir nuestras experiencias con amigos y familia a través de los"
   },
   "dia": {
     "title": "Día de la boda",
     "items": [
       {
-        "time": "17:00",
+        "time": "12:30",
         "title": "Ceremonia",
-        "desc": "Jardín principal"
+        "desc": "Estanque"
       },
       {
-        "time": "18:00",
-        "title": "Cóctel",
-        "desc": "Terraza norte"
+        "time": "13:30",
+        "title": "Cocktail y comida",
+        "desc": "Jardines y recinto de La Hípica"
       },
       {
-        "time": "19:30",
-        "title": "Banquete",
-        "desc": "Salón principal"
+        "time": "17.30",
+        "title": "Bailoteo",
+        "desc": "La Hípica"
       },
       {
-        "time": "22:30",
-        "title": "Fiesta",
-        "desc": "Pista central"
-      },
-      {
-        "time": "03:00",
+        "time": "21.00",
         "title": "Vuelta",
-        "desc": "Salida de buses"
+        "desc": "Salida de bus 1"
+      },
+      {
+        "time": "22.30",
+        "title": "Vuelta",
+        "desc": "Salida de bus 2"
+      },
+      {
+        "time": "00.00",
+        "title": "Vuelta",
+        "desc": "Salida de bus 3"
       }
     ]
   },
   "logistica": {
     "title": "Logística de la boda",
-    "locationTitle": "Finca Los Olivos · Toledo",
-    "howToArrive": "A 45 minutos de Madrid. Recomendamos llegar 30 minutos antes.",
-    "parking": "Parking gratuito dentro de la finca con señalización.",
+    "locationTitle": "La Hípica (Grupo Mamunia)",
+    "howToArrive": "A 10 min de Granada. Recomendamos llegar 30 minutos antes",
+    "parking": "Parking amplio dentro en la finca.",
     "map": {
-      "lat": 39.8628,
-      "lng": -4.0273,
+      "lat": 37.168,
+      "lng": -3.642996,
       "zoom": 13,
       "label": "Ceremonia y celebración",
-      "openUrl": "https://www.openstreetmap.org/?mlat=39.8628&mlon=-4.0273#map=13/39.8628/-4.0273"
+      "openUrl": "https://www.openstreetmap.org/?mlat=37.168&mlon=-3.642996#map=13/37.168/-3.642996"
     }
   },
   "asistencia": {
@@ -54,22 +59,22 @@
   "buses": {
     "enabled": true,
     "stopsIda": [
-      "Madrid Atocha",
-      "Moncloa",
-      "Toledo Centro"
+      "Huétor Tájar",
+      "Hipercor",
+      "Centro comercial Neptuno"
     ],
     "stopsVuelta": [
-      "Toledo Centro",
-      "Moncloa",
-      "Madrid Atocha"
+      "Huétor Tájar",
+      "Hipercor",
+      "Centro comercial Neptuno"
     ]
   },
   "regalo": {
     "enabled": true,
-    "title": "Regalo (opcional)",
-    "message": "Lo más importante es que vengas, pero si quieres tener un detalle, aquí tienes opciones.",
-    "iban": "ES00 0000 0000 0000 0000 0000",
-    "bizum": "+34 600 000 000"
+    "title": "Regalo",
+    "message": "Lo más importante es que vengas a celebrar con nosotros, pero si quieres tener un detalle, aquí tienes opciones.",
+    "iban": "ES25 2095 8001 6091 7347 8662",
+    "bizum": "+34 647183556 //  +34 619350828"
   },
   "footer": {
     "deadlineText": "Confirma antes del 01/09/2026"
