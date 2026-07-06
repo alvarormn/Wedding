@@ -1,15 +1,15 @@
 {
-  "presentacion": {
-    "heroOverline": "Nos casamos",
-    "names": "MªLuisa & Jose Manuel",
-    "subtitle": "<p>Nos conocimos en Córdoba hace algo más de 4 años. </p><p>Desde entonces hemos atravesado juntos un camino lleno de complicidad, retos, proyectos y mucha diversión. Un par de miradas, cientos de cafés, unas cuantas escapadas, manualidades superadas con éxito y millones de risas después... nos hemos dado cuenta de que somos un gran equipo.Compartir nuestras experiencias con amigos y familia a través de los</p>",
-    "title": "Queremos celebrar nuestro gran día contigo",
-    "chipDate": "Sábado · 12/10/2026",
+  "historia": {
+    "heroOverline": "¡¡Nos casamos!!",
+    "names": "MªLuisa & José Manuel",
+    "subtitle": "<p>Nos conocimos en Córdoba hace algo más de cuatro años y, desde entonces, no hemos dejado de construir recuerdos juntos.</p><p>Entre cafés interminables, escapadas improvisadas, retos compartidos, manualidades superadas con éxito, millones de risas y conversaciones, hemos descubierto que somos un auténtico equipazo.</p><p>Lo mejor de este camino ha sido poder compartirlo con nuestra familia y nuestros amigos, haciendo que cada momento merezca aún más la pena.</p><p>Ahora comienza una nueva etapa y nos haría muchísima ilusión que formaras parte de ella.</p><p><br></p><p style=\"text-align: justify\"><strong>¡Vamos allá!</strong></p>",
+    "title": "Queremos celebrar esta aventura contigo",
+    "chipDate": "Sábado · 26/9/2026",
     "chipVenue": "La Hípica (Grupo Mamunia), Granada",
     "chipTime": "12:30 h",
-    "heroCardSummary": "Ceremonia · Cóctel · Cena · Fiesta",
-    "dresscode": "Dress code sugerido: elegante de tarde en tonos neutros.",
-    "headerDate": "12 de octubre de 2026"
+    "heroCardSummary": "Ceremonia · Cóctel · Comida · Fiesta",
+    "dresscode": "Si quieres bailar sin excusas ni vergüenza, trae calzado cómodo",
+    "headerDate": "26 de septiembre de 2026"
   },
   "dia": {
     "title": "Día de la boda",
@@ -46,13 +46,13 @@
       }
     ]
   },
-  "logistica": {
-    "title": "Logística de la boda",
+  "hipica": {
+    "title": "La Hípica: información",
     "locationTitle": "La Hípica (Grupo Mamunia)",
-    "howToArrive": "A 10 min de Granada. Recomendamos llegar 30 minutos antes",
-    "parking": "Parking amplio dentro en la finca.",
+    "howToArrive": "A 10 min de Granada. Recomendamos llegar 30 minutos antesLos autobuses saldrán de Huétor Tájar, Centro Comercial Neptuno e Hipercor a las 11.30",
+    "parking": "Parking amplio dentro en la finca",
     "alojamientoTitle": "Alojamiento",
-    "alojamiento": "Bloque de habitaciones reservado en Hotel Plaza Central y Hotel Alameda hasta el 15/09/2026.",
+    "alojamiento": "Si tienes dudas con el alojamiento, pregunta a los novios",
     "map": {
       "lat": 37.168,
       "lng": -3.642996,
@@ -80,10 +80,10 @@
   },
   "regalo": {
     "enabled": true,
-    "title": "Regalo",
-    "message": "Lo más importante es que vengas a celebrar con nosotros, pero si quieres tener un detalle, aquí tienes opciones.",
+    "title": "Más cosillas",
+    "message": "Lo más importante es que vengas a celebrar con muchas ganas. ¡Ojo! Si quieres marcarte un detalle, te lo vas a tener que cobrar en comida, baile y copas.",
     "iban": "ES25 2095 8001 6091 7347 8662",
-    "bizum": "+34 647183556 //  +34 619350828"
+    "bizum": "Luisa +34 647183556  //  Jose +34 619350"
   },
   "footer": {
     "deadlineText": "Confirma antes del 01/09/2026",

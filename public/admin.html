@@ -35,21 +35,21 @@
     <main class="container">
       <form id="admin-content-form" class="panel" novalidate>
 
-        <!-- PRESENTACIÓN -->
+        <!-- NUESTRA HISTORIA -->
         <section class="section-block">
-          <h2>Presentación</h2>
+          <h2>Nuestra historia</h2>
 
           <label class="field">
             <span>Frase pequeña sobre el encabezado (overline)</span>
-            <input type="text" name="presentacion_heroOverline" required />
+            <input type="text" name="historia_heroOverline" required />
           </label>
           <label class="field">
             <span>Nombres de los novios</span>
-            <input type="text" name="presentacion_names" required />
+            <input type="text" name="historia_names" required />
           </label>
           <label class="field">
             <span>Título principal (H1)</span>
-            <input type="text" name="presentacion_title" required />
+            <input type="text" name="historia_title" required />
           </label>
           <div class="field field--rich">
             <span>Texto de bienvenida (puede tener formato)</span>
@@ -61,15 +61,15 @@
             <div class="grid-3">
               <label class="field">
                 <span>Fecha</span>
-                <input type="text" name="presentacion_chipDate" placeholder="Sábado · 12/10/2026" required />
+                <input type="text" name="historia_chipDate" placeholder="Sábado · 12/10/2026" required />
               </label>
               <label class="field">
                 <span>Lugar</span>
-                <input type="text" name="presentacion_chipVenue" placeholder="Finca Los Olivos, Toledo" required />
+                <input type="text" name="historia_chipVenue" placeholder="Finca Los Olivos, Toledo" required />
               </label>
               <label class="field">
                 <span>Hora</span>
-                <input type="text" name="presentacion_chipTime" placeholder="17:00 h" required />
+                <input type="text" name="historia_chipTime" placeholder="17:00 h" required />
               </label>
             </div>
           </div>
@@ -78,11 +78,11 @@
             <h3>Tarjeta de resumen (lateral)</h3>
             <label class="field">
               <span>Momentos del día</span>
-              <input type="text" name="presentacion_heroCardSummary" placeholder="Ceremonia · Cóctel · Cena · Fiesta" required />
+              <input type="text" name="historia_heroCardSummary" placeholder="Ceremonia · Cóctel · Cena · Fiesta" required />
             </label>
             <label class="field">
               <span>Dress code</span>
-              <input type="text" name="presentacion_dresscode" required />
+              <input type="text" name="historia_dresscode" required />
             </label>
           </div>
 
@@ -90,7 +90,7 @@
             <h3>Cabecera de la página</h3>
             <label class="field">
               <span>Fecha en el logo (cabecera)</span>
-              <input type="text" name="presentacion_headerDate" placeholder="12 de octubre de 2026" required />
+              <input type="text" name="historia_headerDate" placeholder="12 de octubre de 2026" required />
             </label>
           </div>
         </section>
@@ -110,32 +110,32 @@
           </div>
         </section>
 
-        <!-- LOGÍSTICA -->
+        <!-- LA HÍPICA -->
         <section class="section-block">
-          <h2>Logística</h2>
+          <h2>La Hípica</h2>
           <label class="field">
             <span>Título de la sección</span>
-            <input type="text" name="logistica_title" required />
+            <input type="text" name="hipica_title" required />
           </label>
           <label class="field">
             <span>Nombre del lugar (tarjeta mapa)</span>
-            <input type="text" name="logistica_locationTitle" required />
+            <input type="text" name="hipica_locationTitle" required />
           </label>
           <label class="field">
             <span>Cómo llegar</span>
-            <textarea name="logistica_howToArrive" rows="3" required></textarea>
+            <textarea name="hipica_howToArrive" rows="3" required></textarea>
           </label>
           <label class="field">
             <span>Parking</span>
-            <textarea name="logistica_parking" rows="2" required></textarea>
+            <textarea name="hipica_parking" rows="2" required></textarea>
           </label>
           <label class="field">
             <span>Título tarjeta alojamiento</span>
-            <input type="text" name="logistica_alojamientoTitle" required />
+            <input type="text" name="hipica_alojamientoTitle" required />
           </label>
           <label class="field">
             <span>Texto alojamiento</span>
-            <textarea name="logistica_alojamiento" rows="3" required></textarea>
+            <textarea name="hipica_alojamiento" rows="3" required></textarea>
           </label>
 
           <div class="subsection">
@@ -145,7 +145,7 @@
                 <span>Latitud</span>
                 <input
                   type="number"
-                  name="logistica_map_lat"
+                  name="hipica_map_lat"
                   step="any"
                   min="-90"
                   max="90"
@@ -156,7 +156,7 @@
                 <span>Longitud</span>
                 <input
                   type="number"
-                  name="logistica_map_lng"
+                  name="hipica_map_lng"
                   step="any"
                   min="-180"
                   max="180"
@@ -168,17 +168,17 @@
             <div class="grid-2">
               <label class="field">
                 <span>Zoom del mapa</span>
-                <input type="number" name="logistica_map_zoom" min="1" max="20" required />
+                <input type="number" name="hipica_map_zoom" min="1" max="20" required />
               </label>
               <label class="field">
                 <span>Etiqueta del marcador</span>
-                <input type="text" name="logistica_map_label" maxlength="120" required />
+                <input type="text" name="hipica_map_label" maxlength="120" required />
               </label>
             </div>
 
             <label class="field">
               <span>URL para "Abrir en mapas" (https o vacío)</span>
-              <input type="url" name="logistica_map_openUrl" placeholder="https://..." />
+              <input type="url" name="hipica_map_openUrl" placeholder="https://..." />
             </label>
 
             <div class="map-tools">

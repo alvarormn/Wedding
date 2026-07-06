@@ -125,11 +125,11 @@ function clamp(value, min, max) {
 }
 
 function parseMapCoordinates(form) {
-  const lat = Number(form.elements.logistica_map_lat.value);
-  const lng = Number(form.elements.logistica_map_lng.value);
-  const zoom = Number(form.elements.logistica_map_zoom.value);
-  const label = String(form.elements.logistica_map_label.value || '').trim();
-  const rawOpenUrl = String(form.elements.logistica_map_openUrl.value || '').trim();
+  const lat = Number(form.elements.hipica_map_lat.value);
+  const lng = Number(form.elements.hipica_map_lng.value);
+  const zoom = Number(form.elements.hipica_map_zoom.value);
+  const label = String(form.elements.hipica_map_label.value || '').trim();
+  const rawOpenUrl = String(form.elements.hipica_map_openUrl.value || '').trim();
 
   if (!Number.isFinite(lat) || lat < -90 || lat > 90) {
     throw new Error('Latitud inválida. Debe estar entre -90 y 90.');
@@ -167,10 +167,10 @@ function parseMapCoordinates(form) {
 }
 
 function getDraftMapCoordinates(form) {
-  const lat = Number(form.elements.logistica_map_lat.value);
-  const lng = Number(form.elements.logistica_map_lng.value);
-  const zoomRaw = Number(form.elements.logistica_map_zoom.value);
-  const label = String(form.elements.logistica_map_label.value || '').trim() || 'Ubicación';
+  const lat = Number(form.elements.hipica_map_lat.value);
+  const lng = Number(form.elements.hipica_map_lng.value);
+  const zoomRaw = Number(form.elements.hipica_map_zoom.value);
+  const label = String(form.elements.hipica_map_label.value || '').trim() || 'Ubicación';
 
   if (!Number.isFinite(lat) || lat < -90 || lat > 90) {
     return null;
@@ -185,8 +185,8 @@ function getDraftMapCoordinates(form) {
 }
 
 function updateMapFields(form, lat, lng) {
-  form.elements.logistica_map_lat.value = lat.toFixed(6);
-  form.elements.logistica_map_lng.value = lng.toFixed(6);
+  form.elements.hipica_map_lat.value = lat.toFixed(6);
+  form.elements.hipica_map_lng.value = lng.toFixed(6);
 }
 
 function setMapStatus(message, type = '') {
@@ -267,7 +267,7 @@ function initAdminMapPreview(form) {
   adminMarker.on('dragend', () => {
     const position = adminMarker.getLatLng();
     updateMapFields(form, position.lat, position.lng);
-    syncMarkerPopup(String(form.elements.logistica_map_label.value || 'Ubicación').trim() || 'Ubicación');
+    syncMarkerPopup(String(form.elements.hipica_map_label.value || 'Ubicación').trim() || 'Ubicación');
   });
 
   adminMap.on('click', (event) => {
@@ -276,7 +276,7 @@ function initAdminMapPreview(form) {
     updateMapFields(form, lat, lng);
   });
 
-  ['logistica_map_lat', 'logistica_map_lng', 'logistica_map_zoom', 'logistica_map_label'].forEach((fieldName) => {
+  ['hipica_map_lat', 'hipica_map_lng', 'hipica_map_zoom', 'hipica_map_label'].forEach((fieldName) => {
     const field = form.elements[fieldName];
     field?.addEventListener('change', () => movePreviewMarker(form, { recenter: true }));
     field?.addEventListener('input', () => movePreviewMarker(form, { recenter: false }));
@@ -420,6 +420,7 @@ function renderRsvpList(submissions) {
         <th>Fecha</th>
         <th>Nombre</th>
         <th>Asiste</th>
+        <th>La Pataleta</th>
         <th>Personas</th>
         <th>Contacto</th>
         <th>Bus</th>
@@ -439,6 +440,8 @@ function renderRsvpList(submissions) {
       ? `Sí · ${rsvp.bus.outboundStop || '-'} → ${rsvp.bus.returnStop || '-'}`
       : 'No';
 
+    const pataletaLabel = rsvp.pataleta === 'yes' ? 'Sí' : rsvp.pataleta === 'no' ? 'No' : '-';
+
     const extras = [
       rsvp.allergies ? `Alergias: ${rsvp.allergies}` : '',
       rsvp.comments ? `Comentarios: ${rsvp.comments}` : '',
@@ -450,6 +453,7 @@ function renderRsvpList(submissions) {
       <td>${formatDate(entry.timestamp)}</td>
       <td><strong>${escapeHtmlContent(rsvp.name || '-')}</strong></td>
       <td><span class="rsvp-badge rsvp-badge--${rsvp.attending === 'yes' ? 'yes' : 'no'}">${rsvp.attending === 'yes' ? 'Sí' : 'No'}</span></td>
+      <td>${escapeHtmlContent(pataletaLabel)}</td>
       <td>${rsvp.guests || '-'}</td>
       <td>${escapeHtmlContent(rsvp.contact || '-')}</td>
       <td>${escapeHtmlContent(busInfo)}</td>
@@ -502,33 +506,33 @@ async function loadRsvpSubmissions() {
 // ── Rellenar el formulario ───────────────────────────────────
 
 function fillAdminForm(form, content) {
-  form.elements.presentacion_heroOverline.value = content.presentacion.heroOverline;
-  form.elements.presentacion_names.value = content.presentacion.names;
+  form.elements.historia_heroOverline.value = content.historia.heroOverline;
+  form.elements.historia_names.value = content.historia.names;
   if (subtitleQuill) {
-    subtitleQuill.clipboard.dangerouslyPasteHTML(content.presentacion.subtitle || '');
+    subtitleQuill.clipboard.dangerouslyPasteHTML(content.historia.subtitle || '');
   }
-  form.elements.presentacion_title.value = content.presentacion.title || '';
-  form.elements.presentacion_chipDate.value = content.presentacion.chipDate || '';
-  form.elements.presentacion_chipVenue.value = content.presentacion.chipVenue || '';
-  form.elements.presentacion_chipTime.value = content.presentacion.chipTime || '';
-  form.elements.presentacion_heroCardSummary.value = content.presentacion.heroCardSummary || '';
-  form.elements.presentacion_dresscode.value = content.presentacion.dresscode || '';
-  form.elements.presentacion_headerDate.value = content.presentacion.headerDate || '';
+  form.elements.historia_title.value = content.historia.title || '';
+  form.elements.historia_chipDate.value = content.historia.chipDate || '';
+  form.elements.historia_chipVenue.value = content.historia.chipVenue || '';
+  form.elements.historia_chipTime.value = content.historia.chipTime || '';
+  form.elements.historia_heroCardSummary.value = content.historia.heroCardSummary || '';
+  form.elements.historia_dresscode.value = content.historia.dresscode || '';
+  form.elements.historia_headerDate.value = content.historia.headerDate || '';
 
   form.elements.dia_title.value = content.dia.title;
   initDiaItemsEditor(content.dia.items);
 
-  form.elements.logistica_title.value = content.logistica.title;
-  form.elements.logistica_locationTitle.value = content.logistica.locationTitle;
-  form.elements.logistica_howToArrive.value = content.logistica.howToArrive;
-  form.elements.logistica_parking.value = content.logistica.parking;
-  form.elements.logistica_alojamientoTitle.value = content.logistica.alojamientoTitle || '';
-  form.elements.logistica_alojamiento.value = content.logistica.alojamiento || '';
-  form.elements.logistica_map_lat.value = content.logistica.map.lat;
-  form.elements.logistica_map_lng.value = content.logistica.map.lng;
-  form.elements.logistica_map_zoom.value = content.logistica.map.zoom;
-  form.elements.logistica_map_label.value = content.logistica.map.label;
-  form.elements.logistica_map_openUrl.value = content.logistica.map.openUrl;
+  form.elements.hipica_title.value = content.hipica.title;
+  form.elements.hipica_locationTitle.value = content.hipica.locationTitle;
+  form.elements.hipica_howToArrive.value = content.hipica.howToArrive;
+  form.elements.hipica_parking.value = content.hipica.parking;
+  form.elements.hipica_alojamientoTitle.value = content.hipica.alojamientoTitle || '';
+  form.elements.hipica_alojamiento.value = content.hipica.alojamiento || '';
+  form.elements.hipica_map_lat.value = content.hipica.map.lat;
+  form.elements.hipica_map_lng.value = content.hipica.map.lng;
+  form.elements.hipica_map_zoom.value = content.hipica.map.zoom;
+  form.elements.hipica_map_label.value = content.hipica.map.label;
+  form.elements.hipica_map_openUrl.value = content.hipica.map.openUrl;
 
   form.elements.asistencia_title.value = content.asistencia.title;
   form.elements.asistencia_rsvpNote.value = content.asistencia.rsvpNote;
@@ -582,29 +586,29 @@ function collectAdminFormPayload(form) {
   }
 
   return {
-    presentacion: {
-      heroOverline: form.elements.presentacion_heroOverline.value,
-      names: form.elements.presentacion_names.value,
+    historia: {
+      heroOverline: form.elements.historia_heroOverline.value,
+      names: form.elements.historia_names.value,
       subtitle: subtitleQuill ? subtitleQuill.root.innerHTML : '',
-      title: form.elements.presentacion_title.value,
-      chipDate: form.elements.presentacion_chipDate.value,
-      chipVenue: form.elements.presentacion_chipVenue.value,
-      chipTime: form.elements.presentacion_chipTime.value,
-      heroCardSummary: form.elements.presentacion_heroCardSummary.value,
-      dresscode: form.elements.presentacion_dresscode.value,
-      headerDate: form.elements.presentacion_headerDate.value,
+      title: form.elements.historia_title.value,
+      chipDate: form.elements.historia_chipDate.value,
+      chipVenue: form.elements.historia_chipVenue.value,
+      chipTime: form.elements.historia_chipTime.value,
+      heroCardSummary: form.elements.historia_heroCardSummary.value,
+      dresscode: form.elements.historia_dresscode.value,
+      headerDate: form.elements.historia_headerDate.value,
     },
     dia: {
       title: form.elements.dia_title.value,
       items: dayItems,
     },
-    logistica: {
-      title: form.elements.logistica_title.value,
-      locationTitle: form.elements.logistica_locationTitle.value,
-      howToArrive: form.elements.logistica_howToArrive.value,
-      parking: form.elements.logistica_parking.value,
-      alojamientoTitle: form.elements.logistica_alojamientoTitle.value,
-      alojamiento: form.elements.logistica_alojamiento.value,
+    hipica: {
+      title: form.elements.hipica_title.value,
+      locationTitle: form.elements.hipica_locationTitle.value,
+      howToArrive: form.elements.hipica_howToArrive.value,
+      parking: form.elements.hipica_parking.value,
+      alojamientoTitle: form.elements.hipica_alojamientoTitle.value,
+      alojamiento: form.elements.hipica_alojamiento.value,
       map: mapData,
     },
     asistencia: {

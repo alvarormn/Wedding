@@ -235,7 +235,7 @@ function initPublicMap(mapData) {
     return;
   }
 
-  setTextById('text-logistica-mapLabel', config.label);
+  setTextById('text-hipica-mapLabel', config.label);
   setOpenMapsUrl(config.openUrl);
 
   if (!window.L || typeof window.L.map !== 'function') {
@@ -318,32 +318,32 @@ function applyPublicContent(content) {
     return;
   }
 
-  setTextById('text-presentacion-heroOverline', content.presentacion?.heroOverline);
-  setTextById('text-presentacion-names', content.presentacion?.names);
-  setTextById('text-presentacion-names-brand', content.presentacion?.names);
+  setTextById('text-historia-heroOverline', content.historia?.heroOverline);
+  setTextById('text-historia-names', content.historia?.names);
+  setTextById('text-historia-names-brand', content.historia?.names);
   // subtitle es HTML enriquecido — usar innerHTML en lugar de textContent
-  const subtitleEl = document.getElementById('text-presentacion-subtitle');
-  if (subtitleEl && typeof content.presentacion?.subtitle === 'string') {
-    subtitleEl.innerHTML = content.presentacion.subtitle;
+  const subtitleEl = document.getElementById('text-historia-subtitle');
+  if (subtitleEl && typeof content.historia?.subtitle === 'string') {
+    subtitleEl.innerHTML = content.historia.subtitle;
   }
-  setTextById('text-presentacion-title', content.presentacion?.title);
-  setTextById('text-presentacion-headerDate', content.presentacion?.headerDate);
-  setTextById('text-presentacion-chipDate', content.presentacion?.chipDate);
-  setTextById('text-presentacion-chipVenue', content.presentacion?.chipVenue);
-  setTextById('text-presentacion-chipTime', content.presentacion?.chipTime);
-  setTextById('text-presentacion-heroCardSummary', content.presentacion?.heroCardSummary);
-  setTextById('text-presentacion-dresscode', content.presentacion?.dresscode);
+  setTextById('text-historia-title', content.historia?.title);
+  setTextById('text-historia-headerDate', content.historia?.headerDate);
+  setTextById('text-historia-chipDate', content.historia?.chipDate);
+  setTextById('text-historia-chipVenue', content.historia?.chipVenue);
+  setTextById('text-historia-chipTime', content.historia?.chipTime);
+  setTextById('text-historia-heroCardSummary', content.historia?.heroCardSummary);
+  setTextById('text-historia-dresscode', content.historia?.dresscode);
 
   setTextById('dia-title', content.dia?.title);
   renderTimelineItems(content.dia?.items);
 
-  setTextById('logistica-title', content.logistica?.title);
-  setTextById('text-logistica-locationTitle', content.logistica?.locationTitle);
-  setTextById('text-logistica-howToArrive', content.logistica?.howToArrive);
-  setTextById('text-logistica-parking', content.logistica?.parking);
-  setTextById('text-logistica-alojamientoTitle', content.logistica?.alojamientoTitle);
-  setTextById('text-logistica-alojamiento', content.logistica?.alojamiento);
-  initPublicMap(content.logistica?.map);
+  setTextById('hipica-title', content.hipica?.title);
+  setTextById('text-hipica-locationTitle', content.hipica?.locationTitle);
+  setTextById('text-hipica-howToArrive', content.hipica?.howToArrive);
+  setTextById('text-hipica-parking', content.hipica?.parking);
+  setTextById('text-hipica-alojamientoTitle', content.hipica?.alojamientoTitle);
+  setTextById('text-hipica-alojamiento', content.hipica?.alojamiento);
+  initPublicMap(content.hipica?.map);
 
   setTextById('asistencia-title', content.asistencia?.title);
   setTextById('text-asistencia-rsvpNote', content.asistencia?.rsvpNote);
@@ -584,6 +584,7 @@ function initRsvpForm() {
     const nombreValue = rsvpForm.querySelector('#nombre')?.value.trim() || '';
     const contactoValue = rsvpForm.querySelector('#contacto')?.value.trim() || '';
     const asistenciaValue = rsvpForm.querySelector('input[name="asistencia"]:checked')?.value;
+    const pataletaValue = rsvpForm.querySelector('input[name="pataleta"]:checked')?.value || '';
     const wantsBus = rsvpForm.querySelector('input[name="bus"]:checked')?.value === 'yes';
     const personasValue = Number(rsvpForm.querySelector('#personas')?.value || 1);
     const allergiesValue = rsvpForm.querySelector('#alergias')?.value.trim() || '';
@@ -598,6 +599,7 @@ function initRsvpForm() {
       name: nombreValue,
       contact: contactoValue,
       attending: asistenciaValue === 'yes' ? 'yes' : 'no',
+      pataleta: pataletaValue === 'yes' || pataletaValue === 'no' ? pataletaValue : '',
       guests: Number.isFinite(personasValue) ? personasValue : 1,
       allergies: allergiesValue,
       comments: commentsValue,
