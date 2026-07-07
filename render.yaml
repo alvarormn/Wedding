@@ -2,11 +2,15 @@ services:
   - type: web
     name: wedding-admin-panel-test
     runtime: node
-    plan: free
+    plan: starter
     autoDeploy: true
     buildCommand: npm ci --no-audit --no-fund
     startCommand: npm start
     healthCheckPath: /health
+    disk:
+      name: wedding-data
+      mountPath: /opt/render/project/src/data
+      sizeGB: 1
     envVars:
       - key: NODE_ENV
         value: production

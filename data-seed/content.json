@@ -1,0 +1,105 @@
+{
+  "historia": {
+    "heroOverline": "¡¡Nos casamos!!",
+    "names": "MªLuisa & José Manuel",
+    "subtitle": "<p>Nos conocimos en Córdoba hace algo más de cuatro años y, desde entonces, no hemos dejado de construir recuerdos juntos.</p><p>Entre cafés interminables, escapadas improvisadas, retos compartidos, manualidades superadas con éxito, millones de risas y conversaciones, hemos descubierto que somos un auténtico equipazo.</p><p>Lo mejor de este camino ha sido poder compartirlo con nuestra familia y nuestros amigos, haciendo que cada momento merezca aún más la pena.</p><p>Ahora comienza una nueva etapa y nos haría muchísima ilusión que formaras parte de ella.</p><p><br></p><p style=\"text-align: justify\"><strong>¡Vamos allá!</strong></p>",
+    "title": "Queremos celebrar esta aventura contigo",
+    "chipDate": "Sábado · 26/9/2026",
+    "chipVenue": "La Hípica (Grupo Mamunia), Granada",
+    "chipTime": "12:30 h",
+    "heroCardSummary": "Ceremonia · Cóctel · Comida · Fiesta",
+    "dresscode": "Si quieres bailar sin excusas ni vergüenza, trae calzado cómodo",
+    "headerDate": "26 de septiembre de 2026"
+  },
+  "dia": {
+    "title": "Día de la boda",
+    "items": [
+      {
+        "time": "12:30",
+        "title": "Ceremonia",
+        "desc": "Estanque"
+      },
+      {
+        "time": "13:30",
+        "title": "Cocktail y comida",
+        "desc": "Jardines y recinto de La Hípica"
+      },
+      {
+        "time": "17.30",
+        "title": "Bailoteo",
+        "desc": "La Hípica"
+      },
+      {
+        "time": "21.00",
+        "title": "Vuelta",
+        "desc": "Salida de bus 1"
+      },
+      {
+        "time": "22.30",
+        "title": "Vuelta",
+        "desc": "Salida de bus 2"
+      },
+      {
+        "time": "00.00",
+        "title": "Vuelta",
+        "desc": "Salida de bus 3"
+      }
+    ]
+  },
+  "hipica": {
+    "title": "La Hípica: información",
+    "locationTitle": "La Hípica (Grupo Mamunia)",
+    "howToArrive": "A 10 min de Granada. Recomendamos llegar 30 minutos antesLos autobuses saldrán de Huétor Tájar, Centro Comercial Neptuno e Hipercor a las 11.30",
+    "parking": "Parking amplio dentro en la finca",
+    "alojamientoTitle": "Alojamiento",
+    "alojamiento": "Si tienes dudas con el alojamiento, pregunta a los novios",
+    "map": {
+      "lat": 37.168,
+      "lng": -3.642996,
+      "zoom": 13,
+      "label": "Ceremonia y celebración",
+      "openUrl": "https://maps.app.goo.gl/6vbWHke3wBK5zioc6"
+    }
+  },
+  "asistencia": {
+    "title": "Confirmación de asistencia y buses",
+    "rsvpNote": "Confirma antes del 01/09/2026"
+  },
+  "buses": {
+    "enabled": true,
+    "stopsIda": [
+      "Huétor Tájar",
+      "Hipercor",
+      "Centro comercial Neptuno"
+    ],
+    "stopsVuelta": [
+      "Huétor Tájar",
+      "Hipercor",
+      "Centro comercial Neptuno"
+    ]
+  },
+  "regalo": {
+    "enabled": true,
+    "title": "Más cosillas",
+    "message": "Lo más importante es que vengas a celebrar con muchas ganas. ¡Ojo! Si quieres marcarte un detalle, te lo vas a tener que cobrar en comida, baile y copas.",
+    "iban": "ES25 2095 8001 6091 7347 8662",
+    "bizum": "Luisa +34 647183556  //  Jose +34 619350"
+  },
+  "footer": {
+    "deadlineText": "Confirma antes del 01/09/2026",
+    "overline": "Nos encantará celebrarlo contigo",
+    "title": "Gracias por acompañarnos en este día"
+  },
+  "admin": {
+    "notifications": {
+      "rsvpEmailEnabled": true,
+      "rsvpRecipients": [
+        "correo1@dominio.com",
+        "correo2@dominio.com"
+      ],
+      "subjectPrefix": "[BODA] RSVP",
+      "fromName": "Web Boda",
+      "replyToGuest": true
+    }
+  }
+}
