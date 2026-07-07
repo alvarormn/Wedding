@@ -53,29 +53,31 @@
     <main>
       <section class="section hero" id="historia" aria-labelledby="text-historia-title">
         <div class="container hero__layout">
-          <div class="hero__content">
-            <p class="overline reveal" data-reveal id="text-historia-heroOverline">Nos casamos</p>
-            <p class="hero__names script reveal reveal--delay-1" data-reveal id="text-historia-names">
-              Lucía & Mateo
-            </p>
-            <h1 class="title reveal reveal--delay-1" data-reveal id="text-historia-title">
-              Queremos celebrar nuestro gran día contigo
-            </h1>
-            <p class="hero__subtitle muted reveal reveal--delay-2" data-reveal id="text-historia-subtitle">
-              Nos encantaría compartir una jornada de ceremonia, brindis y baile con nuestra gente
-              favorita en un entorno de viñedos y atardecer.
-            </p>
+          <p class="overline reveal" data-reveal id="text-historia-heroOverline">Nos casamos</p>
+          <p class="hero__names script reveal reveal--delay-1" data-reveal id="text-historia-names">
+            Lucía & Mateo
+          </p>
+          <h1 class="title sr-only" id="text-historia-title">
+            Queremos celebrar nuestro gran día contigo
+          </h1>
+          <div class="hero__subtitle sr-only" id="text-historia-subtitle">
+            Nos encantaría compartir una jornada de ceremonia, brindis y baile con nuestra gente
+            favorita en un entorno de viñedos y atardecer.
+          </div>
 
-            <ul class="chip-list reveal reveal--delay-2" data-reveal aria-label="Datos principales">
-              <li class="chip" id="text-historia-chipDate">Sábado · 12/10/2026</li>
-              <li class="chip" id="text-historia-chipVenue">Finca Los Olivos, Toledo</li>
-              <li class="chip" id="text-historia-chipTime">17:00 h</li>
-            </ul>
+          <div class="hero__media reveal reveal--slow" data-reveal>
+            <img src="/img/intro.jpeg" alt="" class="hero__photo" width="1086" height="1172" loading="eager" />
+          </div>
 
-            <div class="hero__actions reveal reveal--delay-2" data-reveal>
-              <a class="btn btn--primary" href="#asistencia">Confirmar asistencia</a>
-              <a class="btn btn--ghost" href="#hipica">Ver La Hípica</a>
-            </div>
+          <ul class="chip-list reveal reveal--delay-2" data-reveal aria-label="Datos principales">
+            <li class="chip" id="text-historia-chipDate">Sábado · 12/10/2026</li>
+            <li class="chip" id="text-historia-chipVenue">Finca Los Olivos, Toledo</li>
+            <li class="chip" id="text-historia-chipTime">17:00 h</li>
+          </ul>
+
+          <div class="hero__actions reveal reveal--delay-2" data-reveal>
+            <a class="btn btn--primary" href="#asistencia">Confirmar asistencia</a>
+            <a class="btn btn--ghost" href="#hipica">Ver La Hípica</a>
           </div>
 
           <aside class="card hero__card reveal reveal--slow" data-reveal aria-label="Resumen de agenda">
@@ -122,6 +124,33 @@
               <h3 class="title">Vuelta</h3>
               <p class="muted">Salida de buses hacia hoteles y centro.</p>
             </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section photo-section" id="fotos" aria-label="Fotografía">
+        <div class="container">
+          <div class="photo-section__grid">
+            <div class="hero__media reveal reveal--slow" data-reveal>
+              <img
+                src="/img/fotos.jpeg"
+                alt=""
+                class="hero__photo"
+                width="1000"
+                height="709"
+                loading="lazy"
+              />
+            </div>
+            <div class="hero__media reveal reveal--slow" data-reveal>
+              <img
+                src="/img/carrete1.jpeg"
+                alt=""
+                class="hero__photo"
+                width="800"
+                height="1201"
+                loading="lazy"
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -180,6 +209,8 @@
 
       <section class="section" id="asistencia" aria-labelledby="asistencia-title">
         <div class="container">
+          <div class="asistencia-split">
+            <div class="asistencia-split__content">
           <p class="overline reveal" data-reveal>Confirmación de asistencia y buses</p>
           <h2 class="title reveal" data-reveal id="asistencia-title">
             Completa tu RSVP en menos de un minuto
@@ -309,6 +340,18 @@
             </div>
             <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
           </form>
+            </div>
+
+            <div class="asistencia-split__media reveal" data-reveal aria-hidden="true">
+              <img
+                src="/img/carrete2.jpeg"
+                alt=""
+                width="417"
+                height="1600"
+                loading="lazy"
+              />
+            </div>
+          </div>
         </div>
       </section>
 
